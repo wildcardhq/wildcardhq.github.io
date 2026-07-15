@@ -171,6 +171,10 @@
     node.style.setProperty('--reveal-delay', '0s');
     node.innerHTML = buildCardMarkup(item);
 
+    // Only the first three cards get the flip "nudge" hint on reveal; once the
+    // idea is taught, later cards just fade in without teasing.
+    if (index < 3) node.dataset.canNudge = '1';
+
     var slot = getSlot(item);
     if (slot) applyPlacement(node, slot, initialCols);
     container.appendChild(node);
@@ -209,7 +213,9 @@
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
           entry.target.classList.add('is-lit');
-          entry.target.classList.add('is-nudge');
+          if (entry.target.dataset.canNudge) {
+            entry.target.classList.add('is-nudge');
+          }
           observer.unobserve(entry.target);
         }
       });

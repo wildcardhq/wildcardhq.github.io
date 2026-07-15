@@ -137,18 +137,18 @@
   [data-theme="dark"] .theme-toggle .moon { display: none; }
 
   h1 {
-    letter-spacing: -0.03em;
-    line-height: 1.08;
+    letter-spacing: -0.035em;
+    line-height: 1.0;
     margin: 0;
     font-weight: 800;
-    font-size: clamp(26px, 4.6vw, 42px);
+    font-size: clamp(46px, 9.2vw, 100px);
   }
 
   .lede {
-    font-size: clamp(17px, 2.5vw, 22px);
+    font-size: clamp(18px, 2.7vw, 25px);
     color: var(--ink-soft);
-    margin: 18px auto 0;
-    line-height: 1.35;
+    margin: 34px auto 0;
+    line-height: 1.5;
     display: flex;
     justify-content: center;
   }
@@ -158,12 +158,52 @@
     max-width: 34em;
   }
 
-  .cycler {
-    color: var(--orange);
-    font-weight: 800;
-    transition: opacity .28s ease, transform .28s ease;
+  .repeat-stack {
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+    margin: 0 0.28em;
+    outline: none;
   }
-  .cycler.swap { opacity: 0; transform: translateY(-6px); }
+  .repeat-stack .tile {
+    width: 1.9em;
+    height: 1.9em;
+    flex: none;
+    border-radius: 0.46em;
+    background: #fff;
+    border: 1px solid rgba(23, 20, 15, 0.06);
+    box-shadow: 0 6px 16px -4px rgba(23, 20, 15, 0.30), 0 2px 5px -2px rgba(23, 20, 15, 0.16);
+    display: grid;
+    place-items: center;
+    margin-left: -0.82em;
+    transition: transform .36s cubic-bezier(.2,.7,.2,1), margin-left .36s cubic-bezier(.2,.7,.2,1);
+    will-change: transform;
+  }
+  .repeat-stack .tile:first-child { margin-left: 0; }
+  .repeat-stack .tile:nth-child(1) { transform: rotate(-8deg); z-index: 1; }
+  .repeat-stack .tile:nth-child(2) { transform: rotate(3deg); z-index: 2; }
+  .repeat-stack .tile:nth-child(3) { transform: rotate(9deg); z-index: 3; }
+  .repeat-stack .tile img {
+    width: 74%;
+    height: 74%;
+    object-fit: contain;
+  }
+  .repeat-stack:hover .tile,
+  .repeat-stack:focus-visible .tile {
+    margin-left: 0.3em;
+    transform: rotate(0deg) translateY(-2px);
+  }
+  .repeat-stack:hover .tile:first-child,
+  .repeat-stack:focus-visible .tile:first-child { margin-left: 0; }
+  .repeat-stack:focus-visible { box-shadow: 0 0 0 3px var(--chip-bg); border-radius: 0.6em; }
+
+  @media (hover: none) {
+    .repeat-stack .tile { margin-left: 0.22em; transform: rotate(0deg); }
+    .repeat-stack .tile:first-child { margin-left: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .repeat-stack .tile { transition: none; }
+  }
 
   .appstore,
   .hero-cta {
@@ -225,8 +265,8 @@
 
 <section class="hero" id="hero">
   <div class="hero-text">
-    <h1 class="rise rise-2">You keep making<br>decisions on autopilot</h1>
-    <p class="lede rise rise-3"><span class="lede-line">and your <span class="cycler" id="cycler">dinner order</span> has been on repeat for way too long.</span></p>
+    <h1 class="rise rise-2">Life on repeat.</h1>
+    <p class="lede rise rise-3"><span class="lede-line">Where your <span class="repeat-stack" tabindex="0" role="img" aria-label="Friday night, coffee order, morning route"><span class="tile"><img src="img/categories/weekend.png" alt="" width="40" height="40" decoding="async" /></span><span class="tile"><img src="img/categories/coffeeshop.png" alt="" width="40" height="40" decoding="async" /></span><span class="tile"><img src="img/categories/workout.png" alt="" width="40" height="40" decoding="async" /></span></span> is just copy-paste.</span></p>
   </div>
 </section>
 
@@ -298,39 +338,9 @@
   };
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
-
-  var words = ['dinner order', 'coffee order', 'Friday night', 'weekend routine', 'show tonight', 'takeout order', 'lunch routine', 'morning coffee'];
-  var cy = document.getElementById('cycler');
-
-  if (cy && !reduced) {
-    var i = 0;
-    var timer = null;
-    var swap = function () {
-      cy.classList.add('swap');
-      setTimeout(function () {
-        i = (i + 1) % words.length;
-        cy.textContent = words[i];
-        cy.classList.remove('swap');
-      }, 280);
-    };
-    var start = function () {
-      if (timer || document.hidden) return;
-      timer = setInterval(swap, 2100);
-    };
-    var stop = function () {
-      if (!timer) return;
-      clearInterval(timer);
-      timer = null;
-    };
-    document.addEventListener('visibilitychange', function () {
-      if (document.hidden) stop();
-      else start();
-    });
-    start();
-  }
 })();
 </script>
 <script src="js/cards-data.js?v=30"></script>
-<script src="js/grid.js?v=24"></script>
+<script src="js/grid.js?v=25"></script>
 </body>
 </html>
