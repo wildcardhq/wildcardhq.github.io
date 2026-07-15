@@ -144,6 +144,34 @@
     font-size: clamp(46px, 9.2vw, 100px);
   }
 
+  /* Hero title: word-by-word clip-up with a held beat on the last word */
+  .hero-title {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.22em;
+    max-width: 12ch;
+    margin-inline: auto;
+  }
+  .hero-title .word {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+    padding-bottom: 0.06em;
+    margin-bottom: -0.06em;
+  }
+  .hero-title .word-inner {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(112%);
+    animation: word-up 0.95s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: calc(0.42s + var(--i) * 0.32s);
+    will-change: transform, opacity;
+  }
+  .hero-title .word:last-child .word-inner {
+    animation-duration: 1.05s;
+  }
+
   .lede {
     font-size: clamp(18px, 2.7vw, 25px);
     color: var(--ink-soft);
@@ -155,54 +183,134 @@
 
   .lede-line {
     text-align: center;
-    max-width: 34em;
+    max-width: 36em;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.28em 0.35em;
+  }
+
+  .lede-chunk {
+    display: inline;
+    opacity: 1;
+    animation: lede-in 0.85s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+  }
+  .lede-chunk--pre {
+    animation-delay: 2.35s;
+  }
+  .lede-chunk--post {
+    animation-delay: 3.35s;
   }
 
   .repeat-stack {
     display: inline-flex;
     align-items: center;
     vertical-align: middle;
-    margin: 0 0.28em;
     outline: none;
+    isolation: isolate;
   }
   .repeat-stack .tile {
-    width: 1.9em;
-    height: 1.9em;
+    --fan-r: 0px;
+    --fan-a: 270deg;
+    --fan-rot: var(--tile-rot, 0deg);
     flex: none;
-    border-radius: 0.46em;
+    height: 1.85em;
+    padding: 0.12em 0.55em 0.12em 0.12em;
+    gap: 0.32em;
+    border-radius: 0.48em;
     background: #fff;
     border: 1px solid rgba(23, 20, 15, 0.06);
     box-shadow: 0 6px 16px -4px rgba(23, 20, 15, 0.30), 0 2px 5px -2px rgba(23, 20, 15, 0.16);
-    display: grid;
-    place-items: center;
-    margin-left: -0.82em;
-    transition: transform .36s cubic-bezier(.2,.7,.2,1), margin-left .36s cubic-bezier(.2,.7,.2,1);
-    will-change: transform;
+    display: inline-flex;
+    align-items: center;
+    margin-left: -0.55em;
+    opacity: 1;
+    transform:
+      translate(
+        calc(cos(var(--fan-a)) * var(--fan-r)),
+        calc(sin(var(--fan-a)) * var(--fan-r))
+      )
+      rotate(var(--fan-rot));
+    animation: tile-deal 0.7s cubic-bezier(0.2, 0.85, 0.25, 1) backwards;
+    transition:
+      transform 0.45s cubic-bezier(0.2, 0.85, 0.25, 1),
+      box-shadow 0.35s ease;
+    will-change: transform, opacity;
   }
   .repeat-stack .tile:first-child { margin-left: 0; }
-  .repeat-stack .tile:nth-child(1) { transform: rotate(-8deg); z-index: 1; }
-  .repeat-stack .tile:nth-child(2) { transform: rotate(3deg); z-index: 2; }
-  .repeat-stack .tile:nth-child(3) { transform: rotate(9deg); z-index: 3; }
-  .repeat-stack .tile img {
-    width: 74%;
-    height: 74%;
-    object-fit: contain;
+  .repeat-stack .tile:nth-child(1) {
+    animation-delay: 2.65s;
+    --tile-rot: -7deg;
+    --fan-a: 220deg;
+    z-index: 1;
   }
+  .repeat-stack .tile:nth-child(2) {
+    animation-delay: 2.84s;
+    --tile-rot: 2deg;
+    --fan-a: 270deg;
+    z-index: 2;
+  }
+  .repeat-stack .tile:nth-child(3) {
+    animation-delay: 3.03s;
+    --tile-rot: 8deg;
+    --fan-a: 320deg;
+    z-index: 3;
+  }
+  .repeat-stack .tile img {
+    width: 1.45em;
+    height: 1.45em;
+    object-fit: contain;
+    flex: none;
+  }
+  .repeat-stack .tile-label {
+    font-size: 0.68em;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+    color: #17140f;
+    white-space: nowrap;
+    line-height: 1;
+    padding-right: 0.1em;
+  }
+
+  /* Fan into an upward semicircle */
   .repeat-stack:hover .tile,
   .repeat-stack:focus-visible .tile {
-    margin-left: 0.3em;
-    transform: rotate(0deg) translateY(-2px);
+    --fan-r: 2.85em;
+    box-shadow:
+      0 10px 22px -6px rgba(23, 20, 15, 0.28),
+      0 3px 8px -3px rgba(23, 20, 15, 0.14);
   }
-  .repeat-stack:hover .tile:first-child,
-  .repeat-stack:focus-visible .tile:first-child { margin-left: 0; }
-  .repeat-stack:focus-visible { box-shadow: 0 0 0 3px var(--chip-bg); border-radius: 0.6em; }
+  .repeat-stack:hover .tile:nth-child(1),
+  .repeat-stack:focus-visible .tile:nth-child(1) {
+    --fan-rot: -24deg;
+    z-index: 5;
+  }
+  .repeat-stack:hover .tile:nth-child(2),
+  .repeat-stack:focus-visible .tile:nth-child(2) {
+    --fan-rot: 0deg;
+    --fan-r: 3.15em;
+    z-index: 6;
+  }
+  .repeat-stack:hover .tile:nth-child(3),
+  .repeat-stack:focus-visible .tile:nth-child(3) {
+    --fan-rot: 24deg;
+    z-index: 5;
+  }
+  .repeat-stack:focus-visible {
+    border-radius: 0.6em;
+    box-shadow: 0 0 0 3px var(--chip-bg);
+  }
 
   @media (hover: none) {
-    .repeat-stack .tile { margin-left: 0.22em; transform: rotate(0deg); }
+    .repeat-stack .tile { margin-left: 0.18em; }
     .repeat-stack .tile:first-child { margin-left: 0; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .repeat-stack .tile { transition: none; }
+    .repeat-stack .tile:nth-child(1),
+    .repeat-stack .tile:nth-child(2),
+    .repeat-stack .tile:nth-child(3) {
+      --tile-rot: 0deg;
+      --fan-rot: 0deg;
+    }
   }
 
   .appstore,
@@ -232,23 +340,43 @@
   .appstore .big,
   .hero-cta .big { font-size: 19px; font-weight: 700; letter-spacing: -0.01em; }
 
-  .rise {
-    opacity: 0;
-    transform: translateY(22px);
-    animation: rise .8s cubic-bezier(.2,.7,.2,1) forwards;
+  @keyframes word-up {
+    0%   { opacity: 0; transform: translateY(112%); }
+    55%  { opacity: 1; }
+    100% { opacity: 1; transform: translateY(0); }
   }
-  .rise-1 { animation-delay: .05s; }
-  .rise-2 { animation-delay: .15s; }
-  .rise-3 { animation-delay: .25s; }
-  .rise-4 { animation-delay: .35s; }
-  @keyframes rise { to { opacity: 1; transform: none; } }
+  @keyframes lede-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes tile-deal {
+    from {
+      opacity: 0;
+      transform: translate(0, 12px) scale(0.68) rotate(0deg);
+    }
+  }
 
   @media (prefers-reduced-motion: reduce) {
-    .rise { opacity: 1; transform: none; animation: none; }
-    .cycler { transition: none; }
+    .hero-title .word-inner,
+    .lede-chunk {
+      opacity: 1;
+      transform: none;
+      animation: none;
+    }
+    .repeat-stack .tile {
+      opacity: 1;
+      animation: none;
+      transition: none;
+      transform:
+        translate(
+          calc(cos(var(--fan-a)) * var(--fan-r)),
+          calc(sin(var(--fan-a)) * var(--fan-r))
+        )
+        rotate(var(--fan-rot));
+    }
   }
 </style>
-<link rel="stylesheet" href="css/grid.css?v=39" />
+<link rel="stylesheet" href="css/grid.css?v=41" />
 <link rel="stylesheet" href="css/page.css?v=36" />
 </head>
 <body>
@@ -265,8 +393,32 @@
 
 <section class="hero" id="hero">
   <div class="hero-text">
-    <h1 class="rise rise-2">Life on repeat.</h1>
-    <p class="lede rise rise-3"><span class="lede-line">Where your <span class="repeat-stack" tabindex="0" role="img" aria-label="Friday night, coffee order, morning route"><span class="tile"><img src="img/categories/weekend.png" alt="" width="40" height="40" decoding="async" /></span><span class="tile"><img src="img/categories/coffeeshop.png" alt="" width="40" height="40" decoding="async" /></span><span class="tile"><img src="img/categories/workout.png" alt="" width="40" height="40" decoding="async" /></span></span> is just copy-paste.</span></p>
+    <h1 class="hero-title" aria-label="Your life on autopilot">
+      <span class="word" aria-hidden="true"><span class="word-inner" style="--i:0">Your</span></span>
+      <span class="word" aria-hidden="true"><span class="word-inner" style="--i:1">life</span></span>
+      <span class="word" aria-hidden="true"><span class="word-inner" style="--i:2">on</span></span>
+      <span class="word" aria-hidden="true"><span class="word-inner" style="--i:3">autopilot</span></span>
+    </h1>
+    <p class="lede">
+      <span class="lede-line">
+        <span class="lede-chunk lede-chunk--pre">Same</span>
+        <span class="repeat-stack" tabindex="0" role="img" aria-label="Friday, coffee, workout">
+          <span class="tile">
+            <img src="img/categories/weekend.png" alt="" width="40" height="40" decoding="async" />
+            <span class="tile-label">Friday</span>
+          </span>
+          <span class="tile">
+            <img src="img/categories/coffeeshop.png" alt="" width="40" height="40" decoding="async" />
+            <span class="tile-label">Coffee</span>
+          </span>
+          <span class="tile">
+            <img src="img/categories/workout.png" alt="" width="40" height="40" decoding="async" />
+            <span class="tile-label">Workout</span>
+          </span>
+        </span>
+        <span class="lede-chunk lede-chunk--post">every week.</span>
+      </span>
+    </p>
   </div>
 </section>
 
