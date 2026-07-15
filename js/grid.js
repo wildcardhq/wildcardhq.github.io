@@ -163,7 +163,12 @@
   items.forEach(function (item, index) {
     var node = document.createElement('div');
     node.className = 'grid-node';
-    node.style.setProperty('--reveal-delay', index * 0.1 + 's');
+    // Cards are revealed one at a time on scroll (IntersectionObserver), not as
+    // one batch — so an index-based stagger just makes later cards reveal and
+    // nudge with a growing lag. Keep the delay constant so every card behaves
+    // identically the moment it enters view. The intra-card sequencing (front
+    // bg +0.14s, icon +0.2s, nudge +0.75s) is still handled in CSS.
+    node.style.setProperty('--reveal-delay', '0s');
     node.innerHTML = buildCardMarkup(item);
 
     var slot = getSlot(item);
