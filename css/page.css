@@ -12,35 +12,51 @@
 .decide::before {
   content: "";
   position: absolute;
+  inset: -35% -10% -10%;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    color-mix(in srgb, var(--orange) 4%, var(--bg)) 28%,
+    color-mix(in srgb, var(--orange) 7%, var(--bg)) 52%,
+    color-mix(in srgb, var(--orange) 3%, var(--bg)) 78%,
+    var(--bg) 100%
+  );
+}
+
+.decide::after {
+  content: "";
+  position: absolute;
   left: 50%;
-  top: -42%;
-  width: min(1200px, 160%);
-  height: 120%;
+  top: 8%;
+  width: min(900px, 120%);
+  height: 70%;
   transform: translateX(-50%);
   z-index: -1;
   pointer-events: none;
-  background:
-    radial-gradient(
-      ellipse 70% 55% at 50% 42%,
-      color-mix(in srgb, var(--orange) 14%, transparent) 0%,
-      color-mix(in srgb, var(--orange) 7%, transparent) 32%,
-      color-mix(in srgb, var(--orange) 2.5%, transparent) 58%,
-      transparent 76%
-    );
-  filter: blur(56px);
-  opacity: 0.9;
+  background: radial-gradient(
+    ellipse 60% 50% at 50% 40%,
+    color-mix(in srgb, var(--orange) 9%, transparent) 0%,
+    transparent 70%
+  );
+  filter: blur(64px);
+  opacity: 0.75;
 }
 
 [data-theme="dark"] .decide::before {
-  opacity: 0.7;
-  background:
-    radial-gradient(
-      ellipse 70% 55% at 50% 42%,
-      color-mix(in srgb, var(--orange) 18%, transparent) 0%,
-      color-mix(in srgb, var(--orange) 8%, transparent) 36%,
-      color-mix(in srgb, var(--orange) 2%, transparent) 60%,
-      transparent 78%
-    );
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    color-mix(in srgb, var(--orange) 5%, var(--bg)) 30%,
+    color-mix(in srgb, var(--orange) 9%, var(--bg)) 55%,
+    color-mix(in srgb, var(--orange) 4%, var(--bg)) 80%,
+    var(--bg) 100%
+  );
+}
+
+[data-theme="dark"] .decide::after {
+  opacity: 0.55;
 }
 
 .decide-inner {
@@ -77,23 +93,14 @@
 .decide-split {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: clamp(28px, 5vw, 48px);
-  margin-top: clamp(40px, 7vh, 64px);
+  gap: clamp(28px, 5vw, 56px);
+  margin-top: clamp(36px, 6vh, 56px);
   text-align: left;
-}
-
-.decide-point-kicker {
-  margin: 0 0 8px;
-  font-size: 12px;
-  font-weight: 650;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--chip-ink);
 }
 
 .decide-point-title {
   margin: 0;
-  font-size: clamp(20px, 2.6vw, 26px);
+  font-size: clamp(22px, 2.8vw, 28px);
   font-weight: 750;
   letter-spacing: -0.025em;
   line-height: 1.15;
@@ -107,6 +114,15 @@
   font-weight: 500;
   line-height: 1.45;
   color: var(--ink-soft);
+}
+
+.decide-bridge {
+  margin: clamp(36px, 6vh, 52px) auto 0;
+  max-width: 28em;
+  font-size: clamp(16px, 2vw, 19px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--ink);
 }
 
 .decide.is-in .decide-reveal {
