@@ -89,7 +89,7 @@
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
-    overflow-x: hidden;
+    /* Don't put overflow-x here — it clips fixed topbar button shadows. */
   }
 
   a { color: inherit; }
@@ -103,6 +103,7 @@
     justify-content: space-between;
     padding: 14px clamp(18px, 5vw, 44px);
     padding-top: calc(14px + env(safe-area-inset-top));
+    overflow: visible;
     background: color-mix(in srgb, var(--bg) 92%, transparent);
     border-bottom: 1px solid transparent;
     transition:
@@ -364,7 +365,7 @@
     }
   }
 </style>
-<link rel="stylesheet" href="css/grid.css?v=51" />
+<link rel="stylesheet" href="css/grid.css?v=52" />
 <link rel="stylesheet" href="css/page.css?v=47" />
 </head>
 <body>

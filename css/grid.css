@@ -12,6 +12,7 @@
   --grid-line-lit: color-mix(in srgb, var(--orange) 18%, transparent);
   position: relative;
   background: var(--bg);
+  overflow-x: clip;
 }
 
 /* One continuous wash across hero → decide. No per-section gradients
