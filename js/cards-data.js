@@ -1,3 +1,9 @@
+// Cards alternate between a left and a right lane down the page. The lane is
+// the only horizontal information a card carries — the exact column is derived
+// from the grid at runtime (see laneColumns in grid.js), so every left card
+// shares a column and every right card shares a column at any viewport width.
+// Desktop and mobile used to differ only in that fraction, so there is one slot
+// per card now rather than a pair that agreed on everything but the x.
 window.WC_GRID_ITEMS = [
   {
     label: 'Dinner tonight',
@@ -6,8 +12,7 @@ window.WC_GRID_ITEMS = [
     hoverTitle: 'Asian cuisine',
     hoverStat: "Order something you can't pronounce.",
     icon: 'img/categories/dinner.png',
-    desktop: { colFrac: 0.09, row: 3, w: 4, h: 4 },
-    mobile: { colFrac: 0, row: 3, w: 4, h: 4 },
+    slot: { lane: 'left', row: 3, w: 4, h: 4 },
   },
   {
     label: 'Coffee shop',
@@ -16,8 +21,7 @@ window.WC_GRID_ITEMS = [
     hoverTitle: "Barista's choice",
     hoverStat: 'Ask them to surprise you.',
     icon: 'img/categories/coffeeshop.png',
-    desktop: { colFrac: 0.82, row: 8, w: 4, h: 4 },
-    mobile: { colFrac: 1, row: 8, w: 4, h: 4 },
+    slot: { lane: 'right', row: 8, w: 4, h: 4 },
   },
   {
     label: 'Restaurant order',
@@ -26,8 +30,7 @@ window.WC_GRID_ITEMS = [
     hoverTitle: 'Dessert first',
     hoverStat: 'Order dessert as your starter.',
     icon: 'img/categories/restaurant.png',
-    desktop: { colFrac: 0.27, row: 13, w: 4, h: 4 },
-    mobile: { colFrac: 0, row: 13, w: 4, h: 4 },
+    slot: { lane: 'left', row: 13, w: 4, h: 4 },
   },
   {
     label: 'Workout',
@@ -36,8 +39,7 @@ window.WC_GRID_ITEMS = [
     hoverTitle: 'Walk double the usual',
     hoverStat: 'Twice your normal route.',
     icon: 'img/categories/workout.png',
-    desktop: { colFrac: 0.91, row: 18, w: 4, h: 4 },
-    mobile: { colFrac: 1, row: 18, w: 4, h: 4 },
+    slot: { lane: 'right', row: 18, w: 4, h: 4 },
   },
   {
     label: 'Screen time',
@@ -46,8 +48,7 @@ window.WC_GRID_ITEMS = [
     hoverTitle: 'Watchlist roulette',
     hoverStat: "Whatever it lands on — watch that.",
     icon: 'img/categories/screentime.png',
-    desktop: { colFrac: 0.09, row: 23, w: 4, h: 4 },
-    mobile: { colFrac: 0, row: 23, w: 4, h: 4 },
+    slot: { lane: 'left', row: 23, w: 4, h: 4 },
   },
   {
     label: 'Friday night',
@@ -56,8 +57,7 @@ window.WC_GRID_ITEMS = [
     hoverTitle: 'New neighborhood',
     hoverStat: 'A part of town you never visit.',
     icon: 'img/categories/weekend.png',
-    desktop: { colFrac: 0.73, row: 28, w: 4, h: 4 },
-    mobile: { colFrac: 1, row: 28, w: 4, h: 4 },
+    slot: { lane: 'right', row: 28, w: 4, h: 4 },
   },
   {
     label: 'Reach out',
@@ -66,8 +66,7 @@ window.WC_GRID_ITEMS = [
     hoverTitle: 'Out of the blue',
     hoverStat: "Text someone who isn't expecting it.",
     icon: 'img/categories/reachout.png',
-    desktop: { colFrac: 0.36, row: 33, w: 4, h: 4 },
-    mobile: { colFrac: 0, row: 33, w: 4, h: 4 },
+    slot: { lane: 'left', row: 33, w: 4, h: 4 },
   },
   {
     label: 'Wind down',
@@ -76,7 +75,6 @@ window.WC_GRID_ITEMS = [
     hoverTitle: 'Tea ritual',
     hoverStat: 'Make a hot drink. Finish it screen-free.',
     icon: 'img/categories/winddown.png',
-    desktop: { colFrac: 0.91, row: 38, w: 4, h: 4 },
-    mobile: { colFrac: 1, row: 38, w: 4, h: 4 },
+    slot: { lane: 'right', row: 38, w: 4, h: 4 },
   },
 ];

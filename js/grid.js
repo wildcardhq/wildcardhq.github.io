@@ -25,41 +25,39 @@
     return document.documentElement.clientWidth || window.innerWidth;
   }
 
-  function isMobile() {
-    return viewportWidth() < 640;
-  }
-
-  function getSlot(item) {
-    return isMobile() ? item.mobile : item.desktop;
-  }
-
   function maxGridRow() {
     var max = 0;
     items.forEach(function (item) {
-      var slot = getSlot(item);
+      var slot = item.slot;
       if (slot) max = Math.max(max, slot.row + slot.h);
     });
     return max + 2;
   }
 
-  // Slots place cards by fraction of the available width (colFrac) instead of
-  // an absolute column, so the layout spreads across the actual viewport
-  // instead of hugging the left edge on wide screens (the grid's column count
-  // grows with viewport width, but a fixed absolute column stays put).
-  // colFrac 0 = as far left as the gutter allows, 1 = as far right.
-  var EDGE_GUTTER = 1;
+  // Two lanes, mirrored about the centre. Every left card resolves to the same
+  // column and every right card to the same column, at any viewport width —
+  // cards used to carry their own fraction of the width each (0.09, 0.27, 0.36
+  // …), which put all eight on their own column and read as scatter rather
+  // than a layout.
+  var EDGE_GUTTER = 1;   // cells kept clear between a card and the viewport edge
+  var LANE_INSET = 0.12; // how far in from the gutter the lanes sit
 
-  function resolveCol(slot, cols) {
-    if (slot.colFrac == null) return slot.col;
+  function laneColumns(cols, w) {
     var first = 1 + EDGE_GUTTER;
-    var last = cols - slot.w + 1 - EDGE_GUTTER;
-    // A viewport too narrow to afford gutters on both sides gets the full
-    // range back rather than a card pushed off-grid.
+    var last = cols - w + 1 - EDGE_GUTTER;
+    // Too narrow to afford a gutter on both sides: give the full range back
+    // rather than push a card off-grid.
     if (last < first) {
       first = 1;
-      last = Math.max(1, cols - slot.w + 1);
+      last = Math.max(1, cols - w + 1);
     }
-    return Math.round(first + slot.colFrac * (last - first));
+    var left = Math.round(first + LANE_INSET * (last - first));
+    return { left: left, right: last - (left - first) };
+  }
+
+  function resolveCol(slot, cols) {
+    var lanes = laneColumns(cols, slot.w);
+    return slot.lane === 'right' ? lanes.right : lanes.left;
   }
 
   function currentCols() {
@@ -98,7 +96,7 @@
     container.querySelectorAll('.grid-node').forEach(function (node, index) {
       var item = items[index];
       if (!item) return;
-      var slot = getSlot(item);
+      var slot = item.slot;
       if (slot) applyPlacement(node, slot, cols);
     });
     syncGrid(cols);
@@ -177,7 +175,7 @@
     // idea is taught, later cards just fade in without teasing.
     if (index < 3) node.dataset.canNudge = '1';
 
-    var slot = getSlot(item);
+    var slot = item.slot;
     if (slot) applyPlacement(node, slot, initialCols);
     container.appendChild(node);
     setupFlip(node);
