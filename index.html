@@ -199,10 +199,10 @@
     line-height: 1.5;
     display: flex;
     justify-content: center;
-    /* Whole subtitle (words + chip) after title lands — one beat, not split. */
+    /* After last title word finishes: delay 0.08 + 3*0.07 + --dur-emph + beat. */
     opacity: 0;
     animation: lede-in var(--dur-reveal) var(--ease-out) forwards;
-    animation-delay: 0.72s;
+    animation-delay: 1.05s;
   }
 
   .lede-line {
@@ -541,11 +541,11 @@
     function start() {
       if (reduced || tiles.length < 2) return;
       stop();
-      /* Wait for subtitle entrance (~0.72s + reveal) before cycling chips. */
+      /* After title + subtitle entrance, then start cycling chips. */
       startDelay = window.setTimeout(function () {
         startDelay = 0;
         timer = window.setInterval(tick, 2200);
-      }, 1200);
+      }, 1600);
     }
 
     function stop() {
