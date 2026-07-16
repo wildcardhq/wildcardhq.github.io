@@ -1,10 +1,9 @@
-/* ---------- Decisions / algorithm section ---------- */
+/* ---------- Decisions stack ---------- */
 .decide {
+  --decide-sticky-top: calc(72px + env(safe-area-inset-top));
   position: relative;
   z-index: 2;
-  padding: clamp(72px, 14vh, 128px) clamp(20px, 5vw, 40px);
-  /* Flat fill — atmosphere lives on ::before so it can bleed into the hero
-     and never hard-cut at the section edge (Apple / Linear wash). */
+  padding: clamp(64px, 10vh, 96px) clamp(16px, 4vw, 36px) clamp(48px, 8vh, 80px);
   background: var(--bg);
   overflow: visible;
 }
@@ -12,57 +11,22 @@
 .decide::before {
   content: "";
   position: absolute;
-  inset: -35% -10% -10%;
+  inset: -20% 0 -5%;
   z-index: -1;
   pointer-events: none;
   background: linear-gradient(
     180deg,
     transparent 0%,
-    color-mix(in srgb, var(--orange) 4%, var(--bg)) 28%,
-    color-mix(in srgb, var(--orange) 7%, var(--bg)) 52%,
-    color-mix(in srgb, var(--orange) 3%, var(--bg)) 78%,
+    color-mix(in srgb, var(--orange) 3.5%, var(--bg)) 35%,
+    color-mix(in srgb, var(--orange) 6%, var(--bg)) 58%,
     var(--bg) 100%
   );
-}
-
-.decide::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 8%;
-  width: min(900px, 120%);
-  height: 70%;
-  transform: translateX(-50%);
-  z-index: -1;
-  pointer-events: none;
-  background: radial-gradient(
-    ellipse 60% 50% at 50% 40%,
-    color-mix(in srgb, var(--orange) 9%, transparent) 0%,
-    transparent 70%
-  );
-  filter: blur(64px);
-  opacity: 0.75;
-}
-
-[data-theme="dark"] .decide::before {
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    color-mix(in srgb, var(--orange) 5%, var(--bg)) 30%,
-    color-mix(in srgb, var(--orange) 9%, var(--bg)) 55%,
-    color-mix(in srgb, var(--orange) 4%, var(--bg)) 80%,
-    var(--bg) 100%
-  );
-}
-
-[data-theme="dark"] .decide::after {
-  opacity: 0.55;
 }
 
 .decide-inner {
   width: 100%;
-  max-width: 820px;
-  margin: 0 auto;
+  max-width: 920px;
+  margin: 0 auto clamp(28px, 5vh, 44px);
   text-align: center;
 }
 
@@ -81,83 +45,156 @@
 }
 
 .decide-lede {
-  margin: clamp(18px, 3vh, 26px) auto 0;
-  max-width: 34em;
-  font-size: clamp(17px, 2.2vw, 21px);
+  margin: 14px auto 0;
+  max-width: 28em;
+  font-size: clamp(16px, 2vw, 19px);
   font-weight: 500;
-  line-height: 1.45;
+  line-height: 1.4;
   color: var(--ink-soft);
-  text-wrap: pretty;
 }
 
-.decide-split {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(28px, 5vw, 56px);
-  margin-top: clamp(36px, 6vh, 56px);
+.decide-stack {
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.decide-card {
+  position: sticky;
+  top: var(--decide-sticky-top);
+  width: 100%;
+  min-height: clamp(220px, 36vh, 300px);
+  margin-bottom: 18vh;
+  padding: clamp(28px, 4.5vw, 44px) clamp(28px, 5vw, 52px);
+  border-radius: 28px;
+  border: 1px solid var(--border);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 10px;
   text-align: left;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.55) inset,
+    0 18px 40px -24px var(--shadow);
+  transition:
+    transform var(--dur-reveal) var(--ease-out),
+    box-shadow var(--dur-reveal) var(--ease-out);
 }
 
-.decide-point-title {
+.decide-card:last-child {
+  margin-bottom: clamp(24px, 5vh, 40px);
+}
+
+.decide-card--1 {
+  z-index: 1;
+  background: linear-gradient(165deg, #fffefb 0%, #f3efe6 100%);
+}
+
+.decide-card--2 {
+  z-index: 2;
+  top: calc(var(--decide-sticky-top) + 14px);
+  background: linear-gradient(165deg, #fff8ef 0%, #ffe4c2 100%);
+}
+
+.decide-card--3 {
+  z-index: 3;
+  top: calc(var(--decide-sticky-top) + 28px);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.18);
+  background:
+    radial-gradient(
+      ellipse 90% 120% at 12% 110%,
+      rgba(255, 220, 140, 0.4) 0%,
+      transparent 58%
+    ),
+    linear-gradient(145deg, #ffb84d 0%, var(--orange) 45%, #e85a00 100%);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.22) inset,
+    0 22px 48px -20px color-mix(in srgb, var(--orange) 50%, transparent);
+}
+
+.decide-card-step {
+  margin: 0 auto 0 0;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--chip-ink);
+}
+
+.decide-card--3 .decide-card-step {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.decide-card-title {
   margin: 0;
-  font-size: clamp(22px, 2.8vw, 28px);
-  font-weight: 750;
-  letter-spacing: -0.025em;
-  line-height: 1.15;
+  font-size: clamp(28px, 4.4vw, 44px);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
   color: var(--ink);
+  text-wrap: balance;
 }
 
-.decide-point-body {
-  margin: 10px 0 0;
-  max-width: 28ch;
-  font-size: clamp(15px, 1.8vw, 17px);
+.decide-card--3 .decide-card-title {
+  color: #fff;
+}
+
+.decide-card-body {
+  margin: 0;
+  max-width: 34em;
+  font-size: clamp(16px, 2.1vw, 20px);
   font-weight: 500;
-  line-height: 1.45;
+  line-height: 1.4;
   color: var(--ink-soft);
+}
+
+.decide-card--3 .decide-card-body {
+  color: rgba(255, 255, 255, 0.92);
 }
 
 .decide-bridge {
-  margin: clamp(36px, 6vh, 52px) auto 0;
+  margin: clamp(20px, 4vh, 36px) auto 0;
   max-width: 28em;
-  font-size: clamp(16px, 2vw, 19px);
-  font-weight: 600;
+  text-align: center;
+  font-size: clamp(17px, 2.2vw, 21px);
+  font-weight: 650;
   letter-spacing: -0.02em;
   color: var(--ink);
 }
 
-.decide.is-in .decide-reveal {
-  opacity: 1;
-  transform: none;
+[data-theme="dark"] .decide-card--1 {
+  background: linear-gradient(
+    165deg,
+    color-mix(in srgb, var(--surface) 90%, #fff) 0%,
+    var(--surface) 100%
+  );
 }
 
-.decide-reveal {
-  opacity: 0;
-  transform: translateY(18px);
-  transition:
-    opacity 0.7s var(--ease-out),
-    transform 0.7s var(--ease-out);
+[data-theme="dark"] .decide-card--2 {
+  background: linear-gradient(
+    165deg,
+    color-mix(in srgb, var(--surface) 70%, #ffb84d) 0%,
+    color-mix(in srgb, var(--surface) 55%, #ff8a1a) 100%
+  );
 }
-
-.decide-reveal--1 { transition-delay: 0.05s; }
-.decide-reveal--2 { transition-delay: 0.16s; }
-.decide-reveal--3 { transition-delay: 0.28s; }
 
 @media (max-width: 640px) {
-  .decide-split {
-    grid-template-columns: 1fr;
-    gap: 28px;
-  }
-
-  .decide-point-body {
-    max-width: none;
+  .decide-card {
+    min-height: clamp(200px, 34vh, 260px);
+    margin-bottom: 14vh;
+    border-radius: 22px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .decide-reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
+  .decide-card {
+    position: relative;
+    top: auto !important;
+    margin-bottom: 16px;
   }
 }
 

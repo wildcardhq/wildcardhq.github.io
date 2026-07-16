@@ -368,7 +368,7 @@
   }
 </style>
 <link rel="stylesheet" href="css/grid.css?v=49" />
-<link rel="stylesheet" href="css/page.css?v=41" />
+<link rel="stylesheet" href="css/page.css?v=42" />
 </head>
 <body>
 
@@ -421,24 +421,31 @@
 
 <section class="decide" id="decide" aria-labelledby="decideTitle">
   <div class="decide-inner">
-    <h2 class="decide-title decide-reveal decide-reveal--1" id="decideTitle">
+    <h2 class="decide-title" id="decideTitle">
       Most choices aren’t really <span class="decide-em">yours</span>.
     </h2>
-    <p class="decide-lede decide-reveal decide-reveal--2">
-      Habit repeats them. Apps recommend the rest.
-    </p>
-    <div class="decide-split decide-reveal decide-reveal--3">
-      <div class="decide-point">
-        <h3 class="decide-point-title">Habit</h3>
-        <p class="decide-point-body">Same coffee. Same Friday. Same scroll. You stop noticing you chose.</p>
-      </div>
-      <div class="decide-point">
-        <h3 class="decide-point-title">The feed</h3>
-        <p class="decide-point-body">Maps, social, delivery — picking what you see, where you go, what you buy.</p>
-      </div>
-    </div>
-    <p class="decide-bridge decide-reveal decide-reveal--3">Pick a loop. Roll. Do that.</p>
+    <p class="decide-lede">Scroll the slide. Feel the punch.</p>
   </div>
+
+  <div class="decide-stack" id="decideStack">
+    <article class="decide-card decide-card--1">
+      <p class="decide-card-step">01</p>
+      <h3 class="decide-card-title">Autopilot takes over</h3>
+      <p class="decide-card-body">Same coffee. Same Friday. Same scroll. You’re not choosing — you’re repeating.</p>
+    </article>
+    <article class="decide-card decide-card--2">
+      <p class="decide-card-step">02</p>
+      <h3 class="decide-card-title">Then the algorithm does</h3>
+      <p class="decide-card-body">Feeds, maps, delivery apps. They pick what you see, where you go, what you buy.</p>
+    </article>
+    <article class="decide-card decide-card--3">
+      <p class="decide-card-step">03</p>
+      <h3 class="decide-card-title">Joy and curiosity fade</h3>
+      <p class="decide-card-body">Nothing feels new. The week is a rerun. Wonder gets quiet.</p>
+    </article>
+  </div>
+
+  <p class="decide-bridge">Pick a loop. Roll. Do that.</p>
 </section>
 
 <section class="grid-scroll" id="grid" aria-label="Categories">
@@ -502,27 +509,6 @@
   };
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
-
-  var decide = document.getElementById('decide');
-  if (decide) {
-    if (reduced) {
-      decide.classList.add('is-in');
-    } else if ('IntersectionObserver' in window) {
-      var decideObs = new IntersectionObserver(
-        function (entries) {
-          entries.forEach(function (entry) {
-            if (!entry.isIntersecting) return;
-            decide.classList.add('is-in');
-            decideObs.disconnect();
-          });
-        },
-        { root: null, threshold: 0.28 }
-      );
-      decideObs.observe(decide);
-    } else {
-      decide.classList.add('is-in');
-    }
-  }
 
   /* Hero chip carousel — one tile at a time */
   var stack = document.getElementById('repeatStack');
