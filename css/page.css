@@ -124,13 +124,7 @@
   overflow: hidden;
   margin: 4px 0;
   border: 0;
-  background:
-    radial-gradient(
-      ellipse 70% 60% at 50% 58%,
-      var(--media-glow) 0%,
-      transparent 70%
-    ),
-    var(--media-bg);
+  background: var(--media-bg);
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
 }
