@@ -87,14 +87,14 @@
   transform: translate3d(0, 0, 0);
 }
 
-/* Top visual stage — transparent cutouts on warm glow */
+/* Top visual stage — fixed 4:3, img cannot stretch the card */
 .decide-card-media {
   position: relative;
   z-index: 1;
   flex: 0 0 auto;
+  width: 100%;
   aspect-ratio: 4 / 3;
-  display: grid;
-  place-items: center;
+  overflow: hidden;
   /* overlap copy by 1px — kills subpixel seam between fills */
   margin-bottom: -1px;
   padding-bottom: 1px;
@@ -111,10 +111,14 @@
 }
 
 .decide-card-media img {
+  position: absolute;
+  inset: 0;
+  margin: auto;
   display: block;
-  width: min(88%, 280px);
+  width: auto;
   height: auto;
-  max-height: 86%;
+  max-width: 72%;
+  max-height: 78%;
   object-fit: contain;
   filter: drop-shadow(0 14px 22px color-mix(in srgb, var(--shadow) 35%, transparent));
 }
@@ -122,6 +126,7 @@
 .decide-card-copy {
   position: relative;
   z-index: 0;
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -176,7 +181,7 @@
 
 .decide-card--result {
   --who-color: var(--orange);
-  --media-bg: color-mix(in srgb, var(--bg) 78%, var(--surface));
+  --media-bg: color-mix(in srgb, var(--bg) 70%, var(--surface));
   --media-glow: color-mix(in srgb, var(--orange) 16%, transparent);
 }
 
