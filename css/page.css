@@ -28,7 +28,6 @@
   letter-spacing: -0.035em;
   line-height: 1.05;
   color: var(--ink);
-  text-wrap: balance;
 }
 
 .decide-title .decide-em {
@@ -132,23 +131,16 @@
 
 .decide-card-title {
   margin: 0;
-  max-width: 16ch;
-  font-size: clamp(28px, 4.2vw, 42px);
+  max-width: 12em;
+  font-size: clamp(26px, 3.6vw, 36px);
   font-weight: 800;
-  letter-spacing: -0.035em;
-  line-height: 1.05;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
   color: var(--ink);
-  text-wrap: balance;
-}
-
-.decide-card--2 .decide-card-title {
-  letter-spacing: -0.04em;
+  text-wrap: pretty;
 }
 
 .decide-card--3 .decide-card-title {
-  max-width: 14ch;
-  font-size: clamp(30px, 4.5vw, 46px);
-  letter-spacing: -0.045em;
   color: #fff;
 }
 
