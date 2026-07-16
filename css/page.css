@@ -143,6 +143,81 @@
   filter: drop-shadow(0 14px 22px color-mix(in srgb, var(--shadow) 35%, transparent));
 }
 
+/* Habit loop: rotating ring + ghost echo of the same cup */
+.decide-card-media--loop {
+  overflow: visible;
+}
+
+.decide-loop-ring {
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  top: 50%;
+  width: min(58%, 168px);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  border: 2px solid color-mix(in srgb, var(--orange) 55%, transparent);
+  border-top-color: var(--orange);
+  border-right-color: color-mix(in srgb, var(--orange) 15%, transparent);
+  box-sizing: border-box;
+  pointer-events: none;
+  animation: decide-loop-spin 2.4s linear infinite;
+}
+
+.decide-loop-ghost,
+.decide-loop-main {
+  z-index: 1;
+}
+
+.decide-loop-ghost {
+  opacity: 0;
+  filter:
+    drop-shadow(0 14px 22px color-mix(in srgb, var(--shadow) 20%, transparent))
+    saturate(0.85);
+  animation: decide-loop-echo 2.4s ease-in-out infinite;
+}
+
+.decide-loop-main {
+  animation: decide-loop-settle 2.4s ease-in-out infinite;
+}
+
+@keyframes decide-loop-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes decide-loop-echo {
+  0%,
+  55% {
+    opacity: 0;
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+  70% {
+    opacity: 0.35;
+    transform: scale(1.08) translate3d(0, -4%, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.18) translate3d(0, -8%, 0);
+  }
+}
+
+@keyframes decide-loop-settle {
+  0%,
+  60% {
+    transform: scale(1);
+  }
+  72% {
+    transform: scale(0.96);
+  }
+  84%,
+  100% {
+    transform: scale(1);
+  }
+}
+
 .decide-card-body {
   flex: 1 1 auto;
   margin: 0;
@@ -193,6 +268,21 @@
     opacity: 1;
     transform: translate3d(0, 0, 0);
     transition: none;
+  }
+
+  .decide-loop-ring,
+  .decide-loop-ghost,
+  .decide-loop-main {
+    animation: none;
+  }
+
+  .decide-loop-ghost {
+    display: none;
+  }
+
+  .decide-loop-ring {
+    opacity: 0.45;
+    border-style: dashed;
   }
 }
 
