@@ -152,7 +152,8 @@
     linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
     linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
   background-size: var(--cell-px) var(--cell-px);
-  background-position: 0 0;
+  /* Must match .grid-nodes margin — same origin as the card lattice. */
+  background-position: var(--grid-offset-x) 0;
   -webkit-mask-image: linear-gradient(
     to bottom,
     transparent 0%,
@@ -176,8 +177,9 @@
   z-index: 1;
   display: grid;
   grid-template-columns: repeat(var(--grid-cols), var(--cell-px));
-  grid-auto-rows: var(--cell-px);
-  width: 100%;
+  grid-template-rows: repeat(var(--grid-rows), var(--cell-px));
+  width: calc(var(--grid-cols) * var(--cell-px));
+  margin-left: var(--grid-offset-x);
   min-height: calc(var(--grid-rows) * var(--cell-px));
 }
 

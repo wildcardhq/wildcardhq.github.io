@@ -72,14 +72,16 @@
     var preferred = getCellSize();
     if (!preferred || !cols) return;
 
-    // Exact-fit cells so the board fills the viewport with no leftover
-    // strip / 50vw offset skew (that read as "crooked" once side fades went).
+    // Integer pixel cells so the painted background lines and the CSS grid
+    // tracks share the same lattice. Fractional cell sizes (vw / cols) let
+    // background-size and grid track rounding diverge — cards look mid-cell.
     var vw = viewportWidth();
-    var cell = vw / cols;
+    var cell = Math.max(1, Math.floor(vw / cols));
+    var offset = Math.floor((vw - cell * cols) / 2);
     var rows = maxGridRow();
 
     pageGrid.style.setProperty('--grid-cols', String(cols));
-    pageGrid.style.setProperty('--grid-offset-x', '0px');
+    pageGrid.style.setProperty('--grid-offset-x', offset + 'px');
     pageGrid.style.setProperty('--grid-rows', String(rows));
     pageGrid.style.setProperty('--cell-px', cell + 'px');
     pageGrid.style.setProperty('--grid-peek', cell * 6 + 'px');
