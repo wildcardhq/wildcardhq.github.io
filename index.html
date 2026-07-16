@@ -364,7 +364,7 @@
   }
 </style>
 <link rel="stylesheet" href="css/grid.css?v=53" />
-<link rel="stylesheet" href="css/page.css?v=50" />
+<link rel="stylesheet" href="css/page.css?v=52" />
 </head>
 <body>
 
@@ -423,23 +423,23 @@
     <p class="decide-lede">Habit first. Then the feed. Then nothing feels new.</p>
   </div>
 
-  <div class="decide-stack" id="decideStack">
-    <article class="decide-card decide-card--1">
-      <p class="decide-card-step">01</p>
-      <h3 class="decide-card-title">Autopilot takes over</h3>
-      <p class="decide-card-body">Same coffee. Same Friday. Same scroll. You’re not choosing — you’re repeating.</p>
-    </article>
-    <article class="decide-card decide-card--2">
-      <p class="decide-card-step">02</p>
-      <h3 class="decide-card-title">Then the algorithm does</h3>
-      <p class="decide-card-body">Feeds, maps, delivery apps. They pick what you see, where you go, what you buy.</p>
-    </article>
-    <article class="decide-card decide-card--3">
-      <p class="decide-card-step">03</p>
-      <h3 class="decide-card-title">Joy and curiosity fade</h3>
-      <p class="decide-card-body">Nothing feels new. The week is a rerun. Wonder gets quiet.</p>
-    </article>
-  </div>
+  <ol class="decide-cascade">
+    <li class="decide-beat decide-beat--you">
+      <p class="decide-who">You</p>
+      <h3 class="decide-beat-title">Autopilot takes over</h3>
+      <p class="decide-beat-body">Same coffee. Same Friday. Same scroll. You’re not choosing — you’re repeating.</p>
+    </li>
+    <li class="decide-beat decide-beat--feed">
+      <p class="decide-who">The feed</p>
+      <h3 class="decide-beat-title">Then the algorithm does</h3>
+      <p class="decide-beat-body">Feeds, maps, delivery apps. They pick what you see, where you go, what you buy.</p>
+    </li>
+    <li class="decide-beat decide-beat--void">
+      <p class="decide-who" aria-label="No one">—</p>
+      <h3 class="decide-beat-title">Joy and curiosity fade</h3>
+      <p class="decide-beat-body">Nothing feels new. The week is a rerun. Wonder gets quiet.</p>
+    </li>
+  </ol>
 </section>
 
 <section class="grid-scroll" id="grid" aria-label="Categories">
@@ -455,13 +455,19 @@
   </h2>
   <div class="outro-stage" aria-hidden="true">
     <figure class="outro-phone outro-phone--left">
-      <img src="img/screenshot-roll.png" alt="" width="519" height="1097" loading="lazy" decoding="async" />
+      <span class="outro-phone-bezel">
+        <img src="img/screenshot-roll.png" alt="" width="519" height="1097" loading="lazy" decoding="async" />
+      </span>
     </figure>
     <figure class="outro-phone outro-phone--center">
-      <img src="img/screenshot-home.png" alt="" width="519" height="1097" loading="lazy" decoding="async" />
+      <span class="outro-phone-bezel">
+        <img src="img/screenshot-home.png" alt="" width="519" height="1097" loading="lazy" decoding="async" />
+      </span>
     </figure>
     <figure class="outro-phone outro-phone--right">
-      <img src="img/screenshot-commit.png" alt="" width="519" height="1097" loading="lazy" decoding="async" />
+      <span class="outro-phone-bezel">
+        <img src="img/screenshot-commit.png" alt="" width="519" height="1097" loading="lazy" decoding="async" />
+      </span>
     </figure>
   </div>
   <p class="outro-lede">

@@ -1,23 +1,18 @@
-/* ---------- Decisions stack ---------- */
-/* Sticky cascade: content pinned to the TOP so the next card covers
-   only the empty lower pad — never the copy. Color/type escalate 01→03. */
+/* ---------- Decide: agency cascade (You → Feed → —) ---------- */
+/* Not feature cards. Causal chain: who chooses, then silence. */
 .decide {
-  --decide-sticky-top: calc(72px + env(safe-area-inset-top));
-  --decide-peek: clamp(20px, 2.6vw, 28px);
-  --decide-width: min(100%, 920px);
-  --decide-pad-x: clamp(28px, 4.5vw, 48px);
-  --decide-pad-y: clamp(28px, 4vw, 40px);
-  --decide-radius: 32px;
+  --decide-width: min(100%, 720px);
   position: relative;
   z-index: 2;
-  padding: clamp(64px, 10vh, 96px) clamp(16px, 4vw, 36px) clamp(48px, 8vh, 80px);
+  padding: clamp(72px, 12vh, 120px) clamp(20px, 5vw, 40px)
+    clamp(56px, 10vh, 96px);
   background: transparent;
   overflow: visible;
 }
 
 .decide-inner {
   width: var(--decide-width);
-  margin: 0 auto clamp(28px, 5vh, 44px);
+  margin: 0 auto clamp(48px, 8vh, 72px);
   text-align: center;
 }
 
@@ -35,7 +30,7 @@
 }
 
 .decide-lede {
-  margin: 14px auto 0;
+  margin: 16px auto 0;
   max-width: 28em;
   font-size: clamp(16px, 2vw, 19px);
   font-weight: 500;
@@ -43,176 +38,127 @@
   color: var(--ink-soft);
 }
 
-.decide-stack {
+.decide-cascade {
+  --beat-gap: clamp(40px, 7vh, 64px);
   width: var(--decide-width);
   margin: 0 auto;
+  padding: 0;
+  list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: var(--beat-gap);
 }
 
-.decide-card {
-  position: sticky;
-  top: calc(var(--decide-sticky-top) + (var(--i, 0) * var(--decide-peek)));
-  z-index: calc(1 + var(--i, 0));
-  width: 100%;
-  min-height: clamp(280px, 52vh, 420px);
-  margin: 0 0 clamp(12px, 2vh, 20px);
-  padding: var(--decide-pad-y) var(--decide-pad-x);
-  /* Lower pad = sacrificial overlap zone under the next card */
-  padding-bottom: clamp(96px, 22vh, 168px);
-  border-radius: var(--decide-radius);
-  border: 1px solid transparent;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 12px;
+.decide-beat {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(5.5rem, 7.5rem) minmax(0, 1fr);
+  column-gap: clamp(20px, 4vw, 36px);
+  row-gap: 8px;
+  align-items: baseline;
   text-align: left;
 }
 
-.decide-card:last-child {
-  margin-bottom: 0;
-  /* Last card keeps content readable; less empty pad */
-  padding-bottom: var(--decide-pad-y);
-  min-height: clamp(260px, 48vh, 380px);
-}
-
-/* Color narrative: readable → strained → washed out. Not punchy white-on-orange. */
-.decide-card--1 {
-  --i: 0;
-  --card-ink: #17140f;
-  --card-soft: #6b655c;
-  --card-step: #c96a10;
-  border-color: rgba(23, 20, 15, 0.06);
-  background: linear-gradient(180deg, #fffefc 0%, #f4f0e8 100%);
-  box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.7) inset,
-    0 14px 36px -22px rgba(23, 20, 15, 0.28);
-}
-
-.decide-card--2 {
-  --i: 1;
-  --card-ink: #6a3a12;
-  --card-soft: #8a5a2e;
-  --card-step: #a84e00;
-  border-color: rgba(180, 80, 0, 0.22);
-  background: linear-gradient(180deg, #ffd9a8 0%, #ffb35c 48%, #f08928 100%);
-  box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.28) inset,
-    0 18px 40px -20px rgba(160, 70, 0, 0.35);
-}
-
-.decide-card--3 {
-  --i: 2;
-  --card-ink: rgba(255, 236, 210, 0.55);
-  --card-soft: rgba(255, 220, 180, 0.38);
-  --card-step: rgba(255, 210, 160, 0.42);
-  border-color: rgba(80, 20, 0, 0.35);
-  background: linear-gradient(165deg, #e85a00 0%, #c44000 45%, #8a2800 100%);
-  box-shadow:
-    0 1px 0 rgba(255, 180, 100, 0.12) inset,
-    0 28px 56px -18px rgba(80, 20, 0, 0.55);
-}
-
-.decide-card-step {
+.decide-who {
   margin: 0;
-  font-size: 15px;
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  align-self: start;
+  padding-top: 0.35em;
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.02em;
-  line-height: 1;
-  color: var(--card-step);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  color: var(--who-color, var(--orange));
 }
 
-.decide-card-title {
+.decide-beat-title {
   margin: 0;
-  max-width: 12em;
-  font-size: clamp(26px, 3.6vw, 36px);
+  grid-column: 2;
+  font-size: clamp(26px, 3.8vw, 38px);
   font-weight: 800;
   letter-spacing: -0.03em;
   line-height: 1.1;
-  color: var(--card-ink);
+  color: var(--beat-ink, var(--ink));
   text-wrap: pretty;
 }
 
-.decide-card-body {
+.decide-beat-body {
   margin: 0;
-  max-width: 34em;
+  grid-column: 2;
+  max-width: 32em;
   font-size: clamp(16px, 2vw, 19px);
   font-weight: 500;
   line-height: 1.45;
-  color: var(--card-soft);
+  color: var(--beat-soft, var(--ink-soft));
+  text-wrap: pretty;
 }
 
-.decide-card--2 .decide-card-body {
+/* 01 — You. Clear. Still choosing, badly. */
+.decide-beat--you {
+  --who-color: var(--orange);
+  --beat-ink: var(--ink);
+  --beat-soft: var(--ink-soft);
+}
+
+/* 02 — The feed. Heavier, warmer, less yours. */
+.decide-beat--feed {
+  --who-color: #b4560a;
+  --beat-ink: #3d2a18;
+  --beat-soft: #7a5a38;
+}
+
+/* 03 — No one. Quiet. Wonder fades. */
+.decide-beat--void {
+  --who-color: color-mix(in srgb, var(--ink-soft) 55%, transparent);
+  --beat-ink: color-mix(in srgb, var(--ink) 42%, var(--bg));
+  --beat-soft: color-mix(in srgb, var(--ink-soft) 48%, var(--bg));
+}
+
+.decide-beat--void .decide-who {
+  font-size: 18px;
   font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: none;
 }
 
-.decide-card--3 .decide-card-title {
+.decide-beat--void .decide-beat-title {
   font-weight: 700;
-  letter-spacing: -0.02em;
 }
 
-.decide-card--3 .decide-card-body {
-  max-width: 28em;
-  font-weight: 500;
+[data-theme="dark"] .decide-beat--feed {
+  --who-color: var(--chip-ink);
+  --beat-ink: color-mix(in srgb, var(--ink) 88%, #ffb84d);
+  --beat-soft: color-mix(in srgb, var(--ink-soft) 80%, #c47a3a);
 }
 
-[data-theme="dark"] .decide-card--1 {
-  --card-ink: var(--ink);
-  --card-soft: var(--ink-soft);
-  --card-step: var(--chip-ink);
-  border-color: rgba(255, 255, 255, 0.08);
-  background: linear-gradient(
-    180deg,
-    color-mix(in srgb, var(--surface) 92%, #fff) 0%,
-    var(--surface) 100%
-  );
+[data-theme="dark"] .decide-beat--void {
+  --who-color: color-mix(in srgb, var(--ink-soft) 40%, transparent);
+  --beat-ink: color-mix(in srgb, var(--ink) 38%, var(--bg));
+  --beat-soft: color-mix(in srgb, var(--ink-soft) 40%, var(--bg));
 }
 
-[data-theme="dark"] .decide-card--2 {
-  --card-ink: #c47a3a;
-  --card-soft: #9a6230;
-  --card-step: #b86820;
-  border-color: rgba(255, 122, 0, 0.22);
-  background: linear-gradient(
-    180deg,
-    color-mix(in srgb, var(--surface) 40%, #e89540) 0%,
-    color-mix(in srgb, var(--surface) 18%, #c45a10) 100%
-  );
-}
-
-[data-theme="dark"] .decide-card--3 {
-  --card-ink: rgba(255, 200, 150, 0.42);
-  --card-soft: rgba(255, 180, 120, 0.28);
-  --card-step: rgba(255, 170, 100, 0.32);
-  background: linear-gradient(165deg, #a83800 0%, #7a2200 50%, #4a1400 100%);
-}
-
-@media (max-width: 640px) {
-  .decide {
-    --decide-radius: 24px;
-    --decide-peek: 16px;
+@media (max-width: 560px) {
+  .decide-beat {
+    grid-template-columns: 1fr;
+    row-gap: 6px;
   }
 
-  .decide-card {
-    min-height: clamp(240px, 48vh, 320px);
-    padding-bottom: clamp(72px, 18vh, 120px);
+  .decide-who {
+    grid-row: auto;
+    padding-top: 0;
+    margin-bottom: 2px;
   }
 
-  .decide-card:last-child {
-    min-height: clamp(220px, 42vh, 300px);
+  .decide-beat-title,
+  .decide-beat-body {
+    grid-column: 1;
   }
-}
 
-@media (prefers-reduced-motion: reduce) {
-  .decide-card {
-    position: relative;
-    top: auto !important;
-    margin-bottom: 14px;
-    min-height: 0;
-    padding-bottom: var(--decide-pad-y);
+  .decide-cascade {
+    --beat-gap: clamp(32px, 6vh, 48px);
   }
 }
 
@@ -243,19 +189,18 @@
 }
 
 .outro-stage {
-  --outro-phone-w: clamp(148px, 18vw, 220px);
+  --outro-phone-w: clamp(150px, 18vw, 210px);
+  --outro-radius: calc(var(--outro-phone-w) * 0.13);
   position: relative;
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  /* Pull sides in — overlap a hair so the trio reads tight like Apple */
-  gap: clamp(-36px, -3.2vw, -18px);
-  width: min(100%, 720px);
+  gap: clamp(-20px, -2vw, -10px);
+  width: min(100%, 680px);
   margin: 0 auto;
-  padding: 0 0 clamp(8px, 1.5vh, 16px);
-  perspective: 1600px;
-  perspective-origin: 50% 55%;
-  transform-style: preserve-3d;
+  padding: 12px 0 20px;
+  perspective: 1200px;
+  perspective-origin: 50% 40%;
   pointer-events: none;
   user-select: none;
 }
@@ -264,17 +209,17 @@
   content: "";
   position: absolute;
   left: 50%;
-  bottom: -4%;
+  bottom: 0;
   z-index: 0;
-  width: min(88%, 640px);
-  height: 20%;
+  width: min(80%, 520px);
+  height: 14%;
   transform: translateX(-50%);
   background: radial-gradient(
     ellipse at center,
-    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.07) 0%,
     transparent 70%
   );
-  filter: blur(12px);
+  filter: blur(14px);
   pointer-events: none;
 }
 
@@ -283,43 +228,55 @@
   z-index: 1;
   width: var(--outro-phone-w);
   margin: 0;
-  padding: 3px;
+  padding: 0;
+  border: 0;
+  background: none;
+  transform-origin: 50% 80%;
+  will-change: transform;
+}
+
+.outro-phone-bezel {
+  display: block;
   overflow: hidden;
-  border-radius: calc(var(--outro-phone-w) * 0.14);
-  background: linear-gradient(160deg, #5a5a5e 0%, #1c1c1e 42%, #0a0a0a 100%);
+  border-radius: var(--outro-radius);
+  background: #1c1c1e;
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.08) inset,
-    0 28px 48px -18px rgba(0, 0, 0, 0.75);
-  transform-style: preserve-3d;
+    0 0 0 1px rgba(255, 255, 255, 0.1),
+    0 0 0 3px #0a0a0a,
+    0 24px 40px -14px rgba(0, 0, 0, 0.8);
+  -webkit-mask-image: -webkit-radial-gradient(#fff, #000);
+  mask-image: radial-gradient(#fff, #000);
 }
 
 .outro-phone img {
   display: block;
   width: 100%;
   height: auto;
-  border-radius: calc(var(--outro-phone-w) * 0.12);
   background: #f5f2eb;
+  vertical-align: top;
 }
 
 .outro-phone--left {
   z-index: 1;
-  transform: translateX(8%) rotateY(22deg) rotateX(3deg) scale(0.92);
-  transform-origin: 100% 60%;
+  transform: rotateY(16deg) scale(0.93);
 }
 
 .outro-phone--center {
   z-index: 3;
-  width: calc(var(--outro-phone-w) * 1.06);
-  transform: translateY(-2%);
+  width: calc(var(--outro-phone-w) * 1.05);
+  transform: translateY(-4px) scale(1);
+}
+
+.outro-phone--center .outro-phone-bezel {
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.1) inset,
-    0 36px 56px -16px rgba(0, 0, 0, 0.85);
+    0 0 0 1px rgba(255, 255, 255, 0.12),
+    0 0 0 3px #0a0a0a,
+    0 32px 52px -14px rgba(0, 0, 0, 0.9);
 }
 
 .outro-phone--right {
   z-index: 1;
-  transform: translateX(-8%) rotateY(-22deg) rotateX(3deg) scale(0.92);
-  transform-origin: 0% 60%;
+  transform: rotateY(-16deg) scale(0.93);
 }
 
 .outro-lede {
@@ -358,17 +315,17 @@
   }
 
   .outro-stage {
-    --outro-phone-w: clamp(108px, 29vw, 136px);
-    gap: -22px;
-    perspective: 1100px;
+    --outro-phone-w: clamp(108px, 28vw, 134px);
+    gap: -12px;
+    perspective: 900px;
   }
 
   .outro-phone--left {
-    transform: translateX(6%) rotateY(18deg) rotateX(2deg) scale(0.94);
+    transform: rotateY(12deg) scale(0.94);
   }
 
   .outro-phone--right {
-    transform: translateX(-6%) rotateY(-18deg) rotateX(2deg) scale(0.94);
+    transform: rotateY(-12deg) scale(0.94);
   }
 
   .outro-lede {
