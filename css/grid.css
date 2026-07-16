@@ -42,15 +42,19 @@
 
 /* ---------- Hero ---------- */
 .hero {
+  /* Pin the first screen to the real viewport, not a padded leftover. */
+  --hero-chrome: calc(56px + env(safe-area-inset-top));
   position: relative;
+  height: 100svh;
+  height: 100dvh;
   min-height: 100svh;
   min-height: 100dvh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: clamp(96px, 17vh, 140px) clamp(20px, 5vw, 40px)
-    clamp(56px, 10vh, 88px);
+  display: grid;
+  place-items: center;
+  padding:
+    var(--hero-chrome)
+    clamp(20px, 5vw, 40px)
+    var(--hero-chrome);
   text-align: center;
   box-sizing: border-box;
   overflow: visible;
@@ -75,6 +79,8 @@
 .hero-text {
   width: 100%;
   max-width: 720px;
+  /* Optical lift so the block reads centered under the fixed topbar. */
+  transform: translateY(calc(var(--hero-chrome) * -0.22));
 }
 
 /* ---------- Grid scroll zone ---------- */
