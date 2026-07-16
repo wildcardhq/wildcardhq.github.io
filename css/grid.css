@@ -54,9 +54,13 @@
   --grid-line: color-mix(in srgb, var(--ink) 5%, transparent);
 }
 
-.page-grid > *:not(.hero-outro):not(.site-footer) {
+.page-grid > *:not(.hero-outro):not(.site-footer):not(.topbar) {
   position: relative;
   z-index: 1;
+}
+
+.page-grid > .topbar {
+  z-index: 50;
 }
 
 .page-grid > .grid-scroll {
