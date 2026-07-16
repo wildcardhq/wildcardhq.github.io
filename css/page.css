@@ -144,16 +144,20 @@
   filter: drop-shadow(0 14px 22px color-mix(in srgb, var(--shadow) 35%, transparent));
 }
 
+.decide-card-media .decide-img--light {
+  display: block !important;
+}
+
 .decide-card-media .decide-img--dark {
-  display: none;
+  display: none !important;
 }
 
-[data-theme="dark"] .decide-card-media .decide-img--light {
-  display: none;
+html[data-theme="dark"] .decide-card-media .decide-img--light {
+  display: none !important;
 }
 
-[data-theme="dark"] .decide-card-media .decide-img--dark {
-  display: block;
+html[data-theme="dark"] .decide-card-media .decide-img--dark {
+  display: block !important;
 }
 
 .decide-card-body {
