@@ -195,12 +195,13 @@
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: clamp(-20px, -2vw, -10px);
-  width: min(100%, 680px);
+  /* Tight, but no hard overlap — overlap + rotateY = jagged AA */
+  gap: clamp(6px, 1.2vw, 14px);
+  width: min(100%, 720px);
   margin: 0 auto;
   padding: 12px 0 20px;
-  perspective: 1200px;
-  perspective-origin: 50% 40%;
+  perspective: 1400px;
+  perspective-origin: 50% 45%;
   pointer-events: none;
   user-select: none;
 }
@@ -223,6 +224,7 @@
   pointer-events: none;
 }
 
+/* Pose only — never clip here */
 .outro-phone {
   position: relative;
   z-index: 1;
@@ -231,52 +233,55 @@
   padding: 0;
   border: 0;
   background: none;
-  transform-origin: 50% 80%;
-  will-change: transform;
+  isolation: isolate;
+  transform-origin: 50% 70%;
+  transform-style: preserve-3d;
 }
 
+/* Clip + radius live here, untransformed relative to self */
 .outro-phone-bezel {
   display: block;
   overflow: hidden;
   border-radius: var(--outro-radius);
-  background: #1c1c1e;
+  padding: 2.5px;
+  background: linear-gradient(160deg, #4a4a4e 0%, #1c1c1e 40%, #0a0a0a 100%);
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.1),
-    0 0 0 3px #0a0a0a,
-    0 24px 40px -14px rgba(0, 0, 0, 0.8);
-  -webkit-mask-image: -webkit-radial-gradient(#fff, #000);
-  mask-image: radial-gradient(#fff, #000);
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 22px 40px -14px rgba(0, 0, 0, 0.85);
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .outro-phone img {
   display: block;
   width: 100%;
   height: auto;
+  border-radius: calc(var(--outro-radius) - 2px);
   background: #f5f2eb;
   vertical-align: top;
 }
 
 .outro-phone--left {
   z-index: 1;
-  transform: rotateY(16deg) scale(0.93);
+  transform: rotateY(12deg) scale(0.94);
 }
 
 .outro-phone--center {
   z-index: 3;
-  width: calc(var(--outro-phone-w) * 1.05);
-  transform: translateY(-4px) scale(1);
+  width: calc(var(--outro-phone-w) * 1.06);
+  transform: translateY(-6px);
 }
 
 .outro-phone--center .outro-phone-bezel {
   box-shadow:
     0 0 0 1px rgba(255, 255, 255, 0.12),
-    0 0 0 3px #0a0a0a,
-    0 32px 52px -14px rgba(0, 0, 0, 0.9);
+    0 30px 48px -12px rgba(0, 0, 0, 0.92);
 }
 
 .outro-phone--right {
   z-index: 1;
-  transform: rotateY(-16deg) scale(0.93);
+  transform: rotateY(-12deg) scale(0.94);
 }
 
 .outro-lede {
@@ -316,16 +321,16 @@
 
   .outro-stage {
     --outro-phone-w: clamp(108px, 28vw, 134px);
-    gap: -12px;
-    perspective: 900px;
+    gap: 6px;
+    perspective: 1000px;
   }
 
   .outro-phone--left {
-    transform: rotateY(12deg) scale(0.94);
+    transform: rotateY(10deg) scale(0.95);
   }
 
   .outro-phone--right {
-    transform: rotateY(-12deg) scale(0.94);
+    transform: rotateY(-10deg) scale(0.95);
   }
 
   .outro-lede {
