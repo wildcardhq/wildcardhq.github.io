@@ -243,6 +243,14 @@
     0 12px 32px color-mix(in srgb, var(--shadow) 45%, transparent);
 }
 
+[data-theme="dark"] .decide-card--result .decide-card-media img {
+  filter:
+    drop-shadow(0 14px 22px color-mix(in srgb, var(--shadow) 45%, transparent))
+    brightness(1.15)
+    contrast(1.08);
+}
+
+
 @media (max-width: 860px) {
   .decide-cards {
     grid-template-columns: 1fr;
