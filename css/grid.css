@@ -193,12 +193,13 @@
 
 @keyframes grid-nudge-flip {
   0%, 100% { transform: rotateY(0deg); }
-  50% { transform: rotateY(16deg); }
+  45% { transform: rotateY(32deg); }
+  70% { transform: rotateY(22deg); }
 }
 
 /* Fires once the reveal has settled (--dur-reveal) rather than on top of it. */
 .grid-node.is-nudge .grid-node-inner {
-  animation: grid-nudge-flip var(--dur-emph) var(--ease-in-out) 0.5s 1;
+  animation: grid-nudge-flip 0.85s var(--ease-in-out) 0.55s 1;
 }
 
 .grid-node-face {
