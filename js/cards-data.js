@@ -42,7 +42,7 @@ window.WC_GRID_ITEMS = [
   {
     label: 'Screen time',
     title: 'Comfort rewatch',
-    stat: 'Watching whatever the algorithm serves.',
+    stat: 'Watching whatever your feed suggests.',
     hoverTitle: 'Guilty pleasure',
     hoverStat: "Reality TV you're embarrassed to admit.",
     icon: 'img/categories/screentime.png',
