@@ -53,6 +53,7 @@
     clamp(56px, 10vh, 88px);
   text-align: center;
   box-sizing: border-box;
+  overflow: visible;
 }
 
 .hero::after {
@@ -61,11 +62,13 @@
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background: radial-gradient(
-    ellipse 78% 55% at 50% 36%,
+  /* Soft vertical wash into the decide glow — no hard section seam. */
+  background: linear-gradient(
+    180deg,
     var(--bg) 0%,
-    color-mix(in srgb, var(--bg) 88%, transparent) 55%,
-    transparent 100%
+    var(--bg) 58%,
+    color-mix(in srgb, var(--orange) 2.5%, var(--bg)) 82%,
+    color-mix(in srgb, var(--orange) 5%, var(--bg)) 100%
   );
 }
 

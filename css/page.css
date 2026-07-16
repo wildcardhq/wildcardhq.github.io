@@ -3,13 +3,44 @@
   position: relative;
   z-index: 2;
   padding: clamp(72px, 14vh, 128px) clamp(20px, 5vw, 40px);
+  /* Flat fill — atmosphere lives on ::before so it can bleed into the hero
+     and never hard-cut at the section edge (Apple / Linear wash). */
+  background: var(--bg);
+  overflow: visible;
+}
+
+.decide::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -42%;
+  width: min(1200px, 160%);
+  height: 120%;
+  transform: translateX(-50%);
+  z-index: -1;
+  pointer-events: none;
   background:
     radial-gradient(
-      ellipse 70% 55% at 50% 0%,
-      var(--glow-soft) 0%,
-      transparent 70%
-    ),
-    var(--bg);
+      ellipse 70% 55% at 50% 42%,
+      color-mix(in srgb, var(--orange) 14%, transparent) 0%,
+      color-mix(in srgb, var(--orange) 7%, transparent) 32%,
+      color-mix(in srgb, var(--orange) 2.5%, transparent) 58%,
+      transparent 76%
+    );
+  filter: blur(56px);
+  opacity: 0.9;
+}
+
+[data-theme="dark"] .decide::before {
+  opacity: 0.7;
+  background:
+    radial-gradient(
+      ellipse 70% 55% at 50% 42%,
+      color-mix(in srgb, var(--orange) 18%, transparent) 0%,
+      color-mix(in srgb, var(--orange) 8%, transparent) 36%,
+      color-mix(in srgb, var(--orange) 2%, transparent) 60%,
+      transparent 78%
+    );
 }
 
 .decide-inner {
