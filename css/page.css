@@ -1,6 +1,13 @@
 /* ---------- Decisions stack ---------- */
+/* Sticky cascade: content pinned to the TOP so the next card covers
+   only the empty lower pad — never the copy. Color/type escalate 01→03. */
 .decide {
   --decide-sticky-top: calc(72px + env(safe-area-inset-top));
+  --decide-peek: clamp(20px, 2.6vw, 28px);
+  --decide-width: min(100%, 920px);
+  --decide-pad-x: clamp(28px, 4.5vw, 48px);
+  --decide-pad-y: clamp(28px, 4vw, 40px);
+  --decide-radius: 32px;
   position: relative;
   z-index: 2;
   padding: clamp(64px, 10vh, 96px) clamp(16px, 4vw, 36px) clamp(48px, 8vh, 80px);
@@ -9,8 +16,7 @@
 }
 
 .decide-inner {
-  width: 100%;
-  max-width: 920px;
+  width: var(--decide-width);
   margin: 0 auto clamp(28px, 5vh, 44px);
   text-align: center;
 }
@@ -39,84 +45,95 @@
 }
 
 .decide-stack {
-  width: 100%;
-  max-width: 980px;
+  width: var(--decide-width);
   margin: 0 auto;
   display: flex;
   flex-direction: column;
+  gap: 0;
 }
 
 .decide-card {
   position: sticky;
-  top: var(--decide-sticky-top);
+  top: calc(var(--decide-sticky-top) + (var(--i, 0) * var(--decide-peek)));
+  z-index: calc(1 + var(--i, 0));
   width: 100%;
-  min-height: clamp(220px, 36vh, 300px);
-  margin-bottom: 18vh;
-  padding: clamp(28px, 4.5vw, 44px) clamp(28px, 5vw, 52px);
-  border-radius: 28px;
-  border: 1px solid var(--border);
+  min-height: clamp(280px, 52vh, 420px);
+  margin: 0 0 clamp(12px, 2vh, 20px);
+  padding: var(--decide-pad-y) var(--decide-pad-x);
+  /* Lower pad = sacrificial overlap zone under the next card */
+  padding-bottom: clamp(96px, 22vh, 168px);
+  border-radius: var(--decide-radius);
+  border: 1px solid transparent;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  gap: 10px;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 12px;
   text-align: left;
-  box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.55) inset,
-    0 18px 40px -24px var(--shadow);
-  transition:
-    transform var(--dur-reveal) var(--ease-out),
-    box-shadow var(--dur-reveal) var(--ease-out);
 }
 
 .decide-card:last-child {
-  margin-bottom: clamp(24px, 5vh, 40px);
+  margin-bottom: 0;
+  /* Last card keeps content readable; less empty pad */
+  padding-bottom: var(--decide-pad-y);
+  min-height: clamp(260px, 48vh, 380px);
 }
 
 .decide-card--1 {
-  z-index: 1;
-  background: linear-gradient(165deg, #fffefb 0%, #f3efe6 100%);
+  --i: 0;
+  border-color: rgba(23, 20, 15, 0.06);
+  background: linear-gradient(180deg, #fffefc 0%, #f7f3ea 100%);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.7) inset,
+    0 14px 36px -22px rgba(23, 20, 15, 0.28);
 }
 
 .decide-card--2 {
-  z-index: 2;
-  top: calc(var(--decide-sticky-top) + 14px);
-  background: linear-gradient(165deg, #fff8ef 0%, #ffe4c2 100%);
+  --i: 1;
+  border-color: rgba(255, 122, 0, 0.16);
+  background: linear-gradient(180deg, #fff4e6 0%, #ffd7a8 55%, #ffc078 100%);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.45) inset,
+    0 18px 40px -20px rgba(180, 80, 0, 0.28);
 }
 
 .decide-card--3 {
-  z-index: 3;
-  top: calc(var(--decide-sticky-top) + 28px);
+  --i: 2;
   color: #fff;
-  border-color: rgba(255, 255, 255, 0.18);
-  background:
-    radial-gradient(
-      ellipse 90% 120% at 12% 110%,
-      rgba(255, 220, 140, 0.4) 0%,
-      transparent 58%
-    ),
-    linear-gradient(145deg, #ffb84d 0%, var(--orange) 45%, #e85a00 100%);
+  border-color: rgba(255, 255, 255, 0.14);
+  background: linear-gradient(165deg, #ff9a2e 0%, var(--orange) 42%, #d44800 100%);
   box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.22) inset,
-    0 22px 48px -20px color-mix(in srgb, var(--orange) 50%, transparent);
+    0 1px 0 rgba(255, 255, 255, 0.2) inset,
+    0 28px 56px -18px rgba(180, 60, 0, 0.55);
 }
 
 .decide-card-step {
-  margin: 0 auto 0 0;
-  font-size: 13px;
+  margin: 0;
+  font-size: 15px;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--chip-ink);
+  letter-spacing: 0.02em;
+  line-height: 1;
+  color: var(--orange);
+}
+
+.decide-card--1 .decide-card-step {
+  color: #c96a10;
+  opacity: 0.85;
+}
+
+.decide-card--2 .decide-card-step {
+  color: #c45600;
 }
 
 .decide-card--3 .decide-card-step {
-  color: rgba(255, 255, 255, 0.78);
+  color: rgba(255, 255, 255, 0.82);
 }
 
 .decide-card-title {
   margin: 0;
-  font-size: clamp(28px, 4.4vw, 44px);
+  max-width: 16ch;
+  font-size: clamp(28px, 4.2vw, 42px);
   font-weight: 800;
   letter-spacing: -0.035em;
   line-height: 1.05;
@@ -124,26 +141,44 @@
   text-wrap: balance;
 }
 
+.decide-card--2 .decide-card-title {
+  letter-spacing: -0.04em;
+}
+
 .decide-card--3 .decide-card-title {
+  max-width: 14ch;
+  font-size: clamp(30px, 4.5vw, 46px);
+  letter-spacing: -0.045em;
   color: #fff;
 }
 
 .decide-card-body {
   margin: 0;
   max-width: 34em;
-  font-size: clamp(16px, 2.1vw, 20px);
+  font-size: clamp(16px, 2vw, 19px);
   font-weight: 500;
-  line-height: 1.4;
+  line-height: 1.45;
   color: var(--ink-soft);
 }
 
+.decide-card--1 .decide-card-body {
+  color: #6b655c;
+}
+
+.decide-card--2 .decide-card-body {
+  color: #5c3d1a;
+  font-weight: 600;
+}
+
 .decide-card--3 .decide-card-body {
+  max-width: 28em;
   color: rgba(255, 255, 255, 0.92);
+  font-weight: 600;
 }
 
 .decide-bridge {
-  margin: clamp(20px, 4vh, 36px) auto 0;
-  max-width: 28em;
+  width: var(--decide-width);
+  margin: clamp(28px, 5vh, 44px) auto 0;
   text-align: center;
   font-size: clamp(17px, 2.2vw, 21px);
   font-weight: 650;
@@ -152,26 +187,48 @@
 }
 
 [data-theme="dark"] .decide-card--1 {
+  border-color: rgba(255, 255, 255, 0.08);
   background: linear-gradient(
-    165deg,
-    color-mix(in srgb, var(--surface) 90%, #fff) 0%,
+    180deg,
+    color-mix(in srgb, var(--surface) 92%, #fff) 0%,
     var(--surface) 100%
   );
 }
 
 [data-theme="dark"] .decide-card--2 {
+  border-color: rgba(255, 122, 0, 0.28);
   background: linear-gradient(
-    165deg,
-    color-mix(in srgb, var(--surface) 70%, #ffb84d) 0%,
-    color-mix(in srgb, var(--surface) 55%, #ff8a1a) 100%
+    180deg,
+    color-mix(in srgb, var(--surface) 55%, #ffc078) 0%,
+    color-mix(in srgb, var(--surface) 30%, #ff8a1a) 100%
   );
 }
 
+[data-theme="dark"] .decide-card--1 .decide-card-body {
+  color: var(--ink-soft);
+}
+
+[data-theme="dark"] .decide-card--2 .decide-card-body {
+  color: color-mix(in srgb, var(--ink) 88%, #ffb84d);
+}
+
+[data-theme="dark"] .decide-card--2 .decide-card-title {
+  color: var(--ink);
+}
+
 @media (max-width: 640px) {
+  .decide {
+    --decide-radius: 24px;
+    --decide-peek: 16px;
+  }
+
   .decide-card {
-    min-height: clamp(200px, 34vh, 260px);
-    margin-bottom: 14vh;
-    border-radius: 22px;
+    min-height: clamp(240px, 48vh, 320px);
+    padding-bottom: clamp(72px, 18vh, 120px);
+  }
+
+  .decide-card:last-child {
+    min-height: clamp(220px, 42vh, 300px);
   }
 }
 
@@ -179,7 +236,9 @@
   .decide-card {
     position: relative;
     top: auto !important;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
+    min-height: 0;
+    padding-bottom: var(--decide-pad-y);
   }
 }
 
