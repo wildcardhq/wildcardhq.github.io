@@ -4,23 +4,8 @@
   position: relative;
   z-index: 2;
   padding: clamp(64px, 10vh, 96px) clamp(16px, 4vw, 36px) clamp(48px, 8vh, 80px);
-  background: var(--bg);
+  background: transparent;
   overflow: visible;
-}
-
-.decide::before {
-  content: "";
-  position: absolute;
-  inset: -20% 0 -5%;
-  z-index: -1;
-  pointer-events: none;
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    color-mix(in srgb, var(--orange) 3.5%, var(--bg)) 35%,
-    color-mix(in srgb, var(--orange) 6%, var(--bg)) 58%,
-    var(--bg) 100%
-  );
 }
 
 .decide-inner {
