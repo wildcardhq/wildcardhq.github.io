@@ -130,7 +130,8 @@
   backface-visibility: hidden;
 }
 
-.decide-card-media img {
+.decide-card-media img,
+.decide-card-media .decide-img {
   position: absolute;
   inset: 0;
   display: block;
@@ -141,6 +142,18 @@
   object-fit: contain;
   object-position: center;
   filter: drop-shadow(0 14px 22px color-mix(in srgb, var(--shadow) 35%, transparent));
+}
+
+.decide-img--dark {
+  display: none;
+}
+
+[data-theme="dark"] .decide-img--light {
+  display: none;
+}
+
+[data-theme="dark"] .decide-img--dark {
+  display: block;
 }
 
 .decide-card-body {
