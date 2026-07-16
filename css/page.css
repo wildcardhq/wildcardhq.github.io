@@ -168,8 +168,8 @@
 }
 
 .decide-card--apps {
-  --who-color: var(--chip-ink);
-  --media-bg: color-mix(in srgb, var(--chip-bg) 55%, var(--surface));
+  --who-color: var(--orange);
+  --media-bg: color-mix(in srgb, var(--bg) 70%, var(--surface));
   --media-glow: color-mix(in srgb, var(--orange) 22%, transparent);
 }
 
