@@ -222,21 +222,23 @@
     animation-delay: 0.95s;
   }
 
+  /* One chip at a time; grid stacks them in the same cell so width = longest. */
   .repeat-stack {
-    display: inline-flex;
+    display: inline-grid;
+    grid-template: auto / auto;
     align-items: center;
+    justify-items: center;
     vertical-align: middle;
+    margin-inline: 0.2em;
     outline: none;
     isolation: isolate;
-    /* Room for the tiles to open on hover without touching the words either
-       side of the stack. */
-    margin-inline: 0.2em;
+  }
+  .repeat-stack:focus-visible {
+    border-radius: 0.6em;
+    box-shadow: 0 0 0 3px var(--chip-bg);
   }
   .repeat-stack .tile {
-    --spread-x: 0em;
-    --lift-y: 0em;
-    --rot: var(--tile-rot, 0deg);
-    flex: none;
+    grid-area: 1 / 1;
     height: 1.85em;
     padding: 0.12em 0.55em 0.12em 0.12em;
     gap: 0.32em;
@@ -248,29 +250,23 @@
       0 1px 2px -1px rgba(23, 20, 15, 0.08);
     display: inline-flex;
     align-items: center;
-    margin-left: -0.55em;
-    opacity: 1;
-    transform: translate(var(--spread-x), var(--lift-y)) rotate(var(--rot));
-    animation: tile-deal var(--dur-reveal) var(--ease-out) backwards;
+    opacity: 0;
+    transform: translateY(0.4em) scale(0.94);
+    pointer-events: none;
     transition:
-      transform var(--dur-reveal) var(--ease-in-out),
-      box-shadow var(--dur-reveal) var(--ease-in-out);
+      opacity var(--dur-reveal) var(--ease-out),
+      transform var(--dur-reveal) var(--ease-out);
   }
-  .repeat-stack .tile:first-child { margin-left: 0; }
-  .repeat-stack .tile:nth-child(1) {
-    animation-delay: 0.7s;
-    --tile-rot: -5deg;
+  .repeat-stack .tile.is-active {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
     z-index: 1;
   }
-  .repeat-stack .tile:nth-child(2) {
-    animation-delay: 0.78s;
-    --tile-rot: 0deg;
+  .repeat-stack .tile.is-exit {
+    opacity: 0;
+    transform: translateY(-0.35em) scale(0.96);
     z-index: 2;
-  }
-  .repeat-stack .tile:nth-child(3) {
-    animation-delay: 0.86s;
-    --tile-rot: 5deg;
-    z-index: 3;
   }
   .repeat-stack .tile img {
     width: 1.45em;
@@ -286,39 +282,6 @@
     white-space: nowrap;
     line-height: 1;
     padding-right: 0.1em;
-  }
-
-  /* The stack sits inside a sentence, so opening it spreads the tiles along the
-     line and straightens them — it must not leave the baseline. */
-  .repeat-stack:hover .tile,
-  .repeat-stack:focus-visible .tile {
-    --rot: 0deg;
-    --lift-y: -0.1em;
-    box-shadow:
-      0 5px 12px -4px rgba(23, 20, 15, 0.18),
-      0 2px 4px -2px rgba(23, 20, 15, 0.10);
-  }
-  .repeat-stack:hover .tile:nth-child(1),
-  .repeat-stack:focus-visible .tile:nth-child(1) {
-    --spread-x: -0.4em;
-  }
-  .repeat-stack:hover .tile:nth-child(3),
-  .repeat-stack:focus-visible .tile:nth-child(3) {
-    --spread-x: 0.4em;
-  }
-  .repeat-stack:focus-visible {
-    border-radius: 0.6em;
-    box-shadow: 0 0 0 3px var(--chip-bg);
-  }
-
-  @media (hover: none) {
-    .repeat-stack .tile { margin-left: 0.18em; }
-    .repeat-stack .tile:first-child { margin-left: 0; }
-    .repeat-stack .tile:nth-child(1),
-    .repeat-stack .tile:nth-child(2),
-    .repeat-stack .tile:nth-child(3) {
-      --tile-rot: 0deg;
-    }
   }
 
   .appstore {
@@ -369,13 +332,6 @@
     from { opacity: 0; }
     to   { opacity: 1; }
   }
-  @keyframes tile-deal {
-    from {
-      opacity: 0;
-      transform: translate(0, 12px) scale(0.68) rotate(0deg);
-    }
-  }
-
   @media (prefers-reduced-motion: reduce) {
     .hero-title .word-inner,
     .lede-chunk {
@@ -384,10 +340,7 @@
       animation: none;
     }
     .repeat-stack .tile {
-      opacity: 1;
-      animation: none;
       transition: none;
-      transform: translate(var(--spread-x), var(--lift-y)) rotate(var(--rot));
     }
   }
 </style>
@@ -423,8 +376,8 @@
     <p class="lede">
       <span class="lede-line">
         <span class="lede-chunk lede-chunk--pre">Same</span>
-        <span class="repeat-stack" tabindex="0" role="img" aria-label="Friday, coffee, workout">
-          <span class="tile">
+        <span class="repeat-stack" id="repeatStack" tabindex="0" role="img" aria-label="Friday">
+          <span class="tile is-active">
             <img src="img/categories/weekend.png" alt="" width="40" height="40" decoding="async" />
             <span class="tile-label">Friday</span>
           </span>
@@ -504,6 +457,63 @@
   };
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
+
+  /* Hero chip carousel — one tile at a time */
+  var stack = document.getElementById('repeatStack');
+  if (stack) {
+    var tiles = Array.prototype.slice.call(stack.querySelectorAll('.tile'));
+    var idx = Math.max(0, tiles.findIndex(function (t) { return t.classList.contains('is-active'); }));
+    var timer = 0;
+    var paused = false;
+
+    function labelOf(tile) {
+      var el = tile.querySelector('.tile-label');
+      return el ? el.textContent.trim() : '';
+    }
+
+    function show(next) {
+      if (!tiles.length || next === idx) return;
+      var prev = tiles[idx];
+      var tile = tiles[next];
+      prev.classList.remove('is-active');
+      prev.classList.add('is-exit');
+      tile.classList.add('is-active');
+      stack.setAttribute('aria-label', labelOf(tile));
+      idx = next;
+      window.setTimeout(function () {
+        prev.classList.remove('is-exit');
+      }, 400);
+    }
+
+    function tick() {
+      if (paused || document.hidden) return;
+      show((idx + 1) % tiles.length);
+    }
+
+    function start() {
+      if (reduced || tiles.length < 2) return;
+      stop();
+      timer = window.setInterval(tick, 2200);
+    }
+
+    function stop() {
+      if (timer) {
+        window.clearInterval(timer);
+        timer = 0;
+      }
+    }
+
+    stack.addEventListener('pointerenter', function () { paused = true; });
+    stack.addEventListener('pointerleave', function () { paused = false; });
+    stack.addEventListener('focus', function () { paused = true; });
+    stack.addEventListener('blur', function () { paused = false; });
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) stop();
+      else start();
+    });
+
+    start();
+  }
 })();
 </script>
 <script src="js/cards-data.js?v=33"></script>
