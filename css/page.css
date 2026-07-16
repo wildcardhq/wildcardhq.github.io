@@ -1,7 +1,6 @@
-/* ---------- Decide: agency cascade (You → Feed → —) ---------- */
-/* Not feature cards. Causal chain: who chooses, then silence. */
+/* ---------- Decide: L→R cards, You → Feed → silence ---------- */
 .decide {
-  --decide-width: min(100%, 720px);
+  --decide-width: min(100%, 1080px);
   position: relative;
   z-index: 2;
   padding: clamp(72px, 12vh, 120px) clamp(20px, 5vw, 40px)
@@ -11,8 +10,8 @@
 }
 
 .decide-inner {
-  width: var(--decide-width);
-  margin: 0 auto clamp(48px, 8vh, 72px);
+  width: min(100%, 720px);
+  margin: 0 auto clamp(40px, 7vh, 64px);
   text-align: center;
 }
 
@@ -38,127 +37,194 @@
   color: var(--ink-soft);
 }
 
-.decide-cascade {
-  --beat-gap: clamp(40px, 7vh, 64px);
+.decide-cards {
   width: var(--decide-width);
   margin: 0 auto;
   padding: 0;
   list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: var(--beat-gap);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(14px, 2vw, 22px);
+  align-items: stretch;
 }
 
-.decide-beat {
+.decide-card {
+  --i: 0;
+  --who-color: var(--orange);
+  --card-ink: var(--ink);
+  --card-soft: var(--ink-soft);
+  --card-bg: #fff;
+  --card-border: rgba(23, 20, 15, 0.08);
+  --icon-wash: #f3f0e8;
   margin: 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: minmax(5.5rem, 7.5rem) minmax(0, 1fr);
-  column-gap: clamp(20px, 4vw, 36px);
-  row-gap: 8px;
-  align-items: baseline;
+  padding: clamp(22px, 2.8vw, 28px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
   text-align: left;
+  border-radius: 20px;
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  box-shadow: 0 14px 32px -20px var(--shadow);
+  box-sizing: border-box;
+  opacity: 0;
+  transform: translateX(28px);
+  transition:
+    opacity var(--dur-emph) var(--ease-out),
+    transform var(--dur-emph) var(--ease-out),
+    box-shadow var(--dur-hover) var(--ease-in-out);
+  transition-delay: calc(var(--i) * 0.14s);
+}
+
+.decide-cards.is-in .decide-card {
+  opacity: 1;
+  transform: none;
+}
+
+.decide-card-icon {
+  width: 72px;
+  height: 72px;
+  margin: 0 0 6px;
+  padding: 10px;
+  border-radius: 18px;
+  background: var(--icon-wash);
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+}
+
+.decide-card-icon img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .decide-who {
   margin: 0;
-  grid-column: 1;
-  grid-row: 1 / span 2;
-  align-self: start;
-  padding-top: 0.35em;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   line-height: 1.2;
-  color: var(--who-color, var(--orange));
+  color: var(--who-color);
 }
 
-.decide-beat-title {
+.decide-card-title {
   margin: 0;
-  grid-column: 2;
-  font-size: clamp(26px, 3.8vw, 38px);
+  font-size: clamp(20px, 2.2vw, 24px);
   font-weight: 800;
   letter-spacing: -0.03em;
-  line-height: 1.1;
-  color: var(--beat-ink, var(--ink));
+  line-height: 1.15;
+  color: var(--card-ink);
   text-wrap: pretty;
 }
 
-.decide-beat-body {
+.decide-card-body {
   margin: 0;
-  grid-column: 2;
-  max-width: 32em;
-  font-size: clamp(16px, 2vw, 19px);
+  font-size: clamp(14px, 1.5vw, 16px);
   font-weight: 500;
   line-height: 1.45;
-  color: var(--beat-soft, var(--ink-soft));
+  color: var(--card-soft);
   text-wrap: pretty;
 }
 
-/* 01 — You. Clear. Still choosing, badly. */
-.decide-beat--you {
+/* Clear → warmer → quiet */
+.decide-card--you {
   --who-color: var(--orange);
-  --beat-ink: var(--ink);
-  --beat-soft: var(--ink-soft);
+  --card-ink: var(--ink);
+  --card-soft: var(--ink-soft);
+  --card-bg: #fffefc;
+  --icon-wash: #f5f2eb;
 }
 
-/* 02 — The feed. Heavier, warmer, less yours. */
-.decide-beat--feed {
+.decide-card--feed {
   --who-color: #b4560a;
-  --beat-ink: #3d2a18;
-  --beat-soft: #7a5a38;
+  --card-ink: #3d2a18;
+  --card-soft: #7a5a38;
+  --card-bg: linear-gradient(165deg, #fff6eb 0%, #ffe2c0 100%);
+  --card-border: rgba(180, 80, 0, 0.16);
+  --icon-wash: rgba(255, 255, 255, 0.55);
+  background: var(--card-bg);
 }
 
-/* 03 — No one. Quiet. Wonder fades. */
-.decide-beat--void {
+.decide-card--void {
   --who-color: color-mix(in srgb, var(--ink-soft) 55%, transparent);
-  --beat-ink: color-mix(in srgb, var(--ink) 42%, var(--bg));
-  --beat-soft: color-mix(in srgb, var(--ink-soft) 48%, var(--bg));
+  --card-ink: color-mix(in srgb, var(--ink) 48%, var(--bg));
+  --card-soft: color-mix(in srgb, var(--ink-soft) 52%, var(--bg));
+  --card-bg: color-mix(in srgb, var(--bg) 70%, #e8e0d4);
+  --card-border: rgba(23, 20, 15, 0.05);
+  --icon-wash: color-mix(in srgb, var(--bg) 55%, #ddd5c8);
+  box-shadow: none;
 }
 
-.decide-beat--void .decide-who {
-  font-size: 18px;
+.decide-card--void .decide-who {
+  font-size: 16px;
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: none;
 }
 
-.decide-beat--void .decide-beat-title {
+.decide-card--void .decide-card-icon {
+  opacity: 0.45;
+  filter: grayscale(0.35) saturate(0.7);
+}
+
+.decide-card--void .decide-card-title {
   font-weight: 700;
 }
 
-[data-theme="dark"] .decide-beat--feed {
+[data-theme="dark"] .decide-card--you {
+  --card-bg: var(--surface);
+  --icon-wash: color-mix(in srgb, var(--surface) 70%, #000);
+  --card-border: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="dark"] .decide-card--feed {
   --who-color: var(--chip-ink);
-  --beat-ink: color-mix(in srgb, var(--ink) 88%, #ffb84d);
-  --beat-soft: color-mix(in srgb, var(--ink-soft) 80%, #c47a3a);
+  --card-ink: color-mix(in srgb, var(--ink) 88%, #ffb84d);
+  --card-soft: color-mix(in srgb, var(--ink-soft) 80%, #c47a3a);
+  --card-bg: linear-gradient(
+    165deg,
+    color-mix(in srgb, var(--surface) 70%, #ffb84d) 0%,
+    color-mix(in srgb, var(--surface) 45%, #ff8a1a) 100%
+  );
+  --icon-wash: rgba(0, 0, 0, 0.22);
+  --card-border: rgba(255, 122, 0, 0.22);
+  background: var(--card-bg);
 }
 
-[data-theme="dark"] .decide-beat--void {
+[data-theme="dark"] .decide-card--void {
   --who-color: color-mix(in srgb, var(--ink-soft) 40%, transparent);
-  --beat-ink: color-mix(in srgb, var(--ink) 38%, var(--bg));
-  --beat-soft: color-mix(in srgb, var(--ink-soft) 40%, var(--bg));
+  --card-ink: color-mix(in srgb, var(--ink) 40%, var(--bg));
+  --card-soft: color-mix(in srgb, var(--ink-soft) 42%, var(--bg));
+  --card-bg: color-mix(in srgb, var(--surface) 75%, #000);
+  --icon-wash: color-mix(in srgb, var(--surface) 55%, #000);
+  --card-border: rgba(255, 255, 255, 0.04);
 }
 
-@media (max-width: 560px) {
-  .decide-beat {
+@media (max-width: 860px) {
+  .decide-cards {
     grid-template-columns: 1fr;
-    row-gap: 6px;
+    gap: 14px;
+    max-width: 420px;
   }
 
-  .decide-who {
-    grid-row: auto;
-    padding-top: 0;
-    margin-bottom: 2px;
+  .decide-card {
+    transform: translateY(22px);
   }
 
-  .decide-beat-title,
-  .decide-beat-body {
-    grid-column: 1;
+  .decide-cards.is-in .decide-card {
+    transform: none;
   }
+}
 
-  .decide-cascade {
-    --beat-gap: clamp(32px, 6vh, 48px);
+@media (prefers-reduced-motion: reduce) {
+  .decide-card {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }
 

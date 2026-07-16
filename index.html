@@ -364,7 +364,7 @@
   }
 </style>
 <link rel="stylesheet" href="css/grid.css?v=53" />
-<link rel="stylesheet" href="css/page.css?v=53" />
+<link rel="stylesheet" href="css/page.css?v=54" />
 </head>
 <body>
 
@@ -423,21 +423,30 @@
     <p class="decide-lede">Habit first. Then the feed. Then nothing feels new.</p>
   </div>
 
-  <ol class="decide-cascade">
-    <li class="decide-beat decide-beat--you">
+  <ol class="decide-cards" id="decideCards">
+    <li class="decide-card decide-card--you" style="--i:0">
+      <div class="decide-card-icon" aria-hidden="true">
+        <img src="img/categories/coffeeshop.png" alt="" width="120" height="120" loading="lazy" decoding="async" />
+      </div>
       <p class="decide-who">You</p>
-      <h3 class="decide-beat-title">Autopilot takes over</h3>
-      <p class="decide-beat-body">Same coffee. Same Friday. Same scroll. You’re not choosing — you’re repeating.</p>
+      <h3 class="decide-card-title">Autopilot takes over</h3>
+      <p class="decide-card-body">Same coffee. Same Friday. Same scroll. You’re not choosing — you’re repeating.</p>
     </li>
-    <li class="decide-beat decide-beat--feed">
+    <li class="decide-card decide-card--feed" style="--i:1">
+      <div class="decide-card-icon" aria-hidden="true">
+        <img src="img/categories/screentime.png" alt="" width="120" height="120" loading="lazy" decoding="async" />
+      </div>
       <p class="decide-who">The feed</p>
-      <h3 class="decide-beat-title">Then the algorithm does</h3>
-      <p class="decide-beat-body">Feeds, maps, delivery apps. They pick what you see, where you go, what you buy.</p>
+      <h3 class="decide-card-title">Then the algorithm does</h3>
+      <p class="decide-card-body">Feeds, maps, delivery apps. They pick what you see, where you go, what you buy.</p>
     </li>
-    <li class="decide-beat decide-beat--void">
+    <li class="decide-card decide-card--void" style="--i:2">
+      <div class="decide-card-icon" aria-hidden="true">
+        <img src="img/categories/winddown.png" alt="" width="120" height="120" loading="lazy" decoding="async" />
+      </div>
       <p class="decide-who" aria-label="No one">—</p>
-      <h3 class="decide-beat-title">Joy and curiosity fade</h3>
-      <p class="decide-beat-body">Nothing feels new. The week is a rerun. Wonder gets quiet.</p>
+      <h3 class="decide-card-title">Joy and curiosity fade</h3>
+      <p class="decide-card-body">Nothing feels new. The week is a rerun. Wonder gets quiet.</p>
     </li>
   </ol>
 </section>
@@ -508,6 +517,26 @@
   };
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
+
+  /* Decide cards: stagger L→R when the row enters view */
+  var decideCards = document.getElementById('decideCards');
+  if (decideCards) {
+    if (reduced || !('IntersectionObserver' in window)) {
+      decideCards.classList.add('is-in');
+    } else {
+      var decideObs = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            decideCards.classList.add('is-in');
+            decideObs.disconnect();
+          });
+        },
+        { threshold: 0.28, rootMargin: '0px 0px -8% 0px' }
+      );
+      decideObs.observe(decideCards);
+    }
+  }
 
   /* Hero chip carousel — one tile at a time */
   var stack = document.getElementById('repeatStack');
