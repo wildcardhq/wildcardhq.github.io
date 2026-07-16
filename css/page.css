@@ -144,11 +144,6 @@
   filter: drop-shadow(0 14px 22px color-mix(in srgb, var(--shadow) 35%, transparent));
 }
 
-/* Phone needs to read — tighter crop, larger in frame */
-.decide-card--apps .decide-card-media .decide-img {
-  padding: 2% 6%;
-}
-
 .decide-card-media .decide-img--light {
   display: block !important;
 }
