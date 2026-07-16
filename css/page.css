@@ -112,8 +112,9 @@
 
 .decide-card-media img {
   display: block;
-  width: min(78%, 220px);
+  width: min(88%, 280px);
   height: auto;
+  max-height: 86%;
   object-fit: contain;
   filter: drop-shadow(0 14px 22px color-mix(in srgb, var(--shadow) 35%, transparent));
 }
