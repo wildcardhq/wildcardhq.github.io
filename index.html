@@ -202,7 +202,9 @@
 
   .lede-line {
     text-align: center;
+    width: 100%;
     max-width: 36em;
+    margin-inline: auto;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -222,12 +224,13 @@
     animation-delay: 0.95s;
   }
 
-  /* One chip at a time; grid stacks them in the same cell so width = longest. */
+  /* Width follows the active chip only — inactive tiles are absolute so a
+     short label like Friday can't sit left inside a Workout-wide slot. */
   .repeat-stack {
-    display: inline-grid;
-    grid-template: auto / auto;
+    position: relative;
+    display: inline-flex;
     align-items: center;
-    justify-items: center;
+    justify-content: center;
     vertical-align: middle;
     margin-inline: 0.06em;
     outline: none;
@@ -238,7 +241,6 @@
     box-shadow: 0 0 0 3px var(--chip-bg);
   }
   .repeat-stack .tile {
-    grid-area: 1 / 1;
     height: 1.7em;
     padding: 0.08em 0.38em 0.08em 0.08em;
     gap: 0.22em;
@@ -248,31 +250,36 @@
     box-shadow:
       0 2px 6px -2px rgba(23, 20, 15, 0.14),
       0 1px 2px -1px rgba(23, 20, 15, 0.08);
-    display: inline-flex;
+    display: none;
     align-items: center;
     opacity: 0;
-    transform: translateY(0.4em) scale(0.94);
     pointer-events: none;
-    transition:
-      opacity var(--dur-reveal) var(--ease-out),
-      transform var(--dur-reveal) var(--ease-out);
+  }
+  .repeat-stack .tile.is-active,
+  .repeat-stack .tile.is-exit {
+    display: inline-flex;
   }
   .repeat-stack .tile.is-active {
+    position: relative;
     opacity: 1;
-    transform: none;
     pointer-events: auto;
     z-index: 1;
+    animation: tile-in var(--dur-reveal) var(--ease-out);
   }
   .repeat-stack .tile.is-exit {
+    position: absolute;
+    left: 50%;
+    top: 50%;
     opacity: 0;
-    transform: translateY(-0.35em) scale(0.96);
     z-index: 2;
+    animation: tile-out var(--dur-reveal) var(--ease-out) forwards;
   }
   .repeat-stack .tile img {
     width: 1.35em;
     height: 1.35em;
     object-fit: contain;
     flex: none;
+    display: block;
   }
   .repeat-stack .tile-label {
     font-size: 0.68em;
@@ -282,6 +289,15 @@
     white-space: nowrap;
     line-height: 1;
     padding-right: 0;
+  }
+
+  @keyframes tile-in {
+    from { opacity: 0; transform: translateY(0.35em) scale(0.96); }
+    to   { opacity: 1; transform: none; }
+  }
+  @keyframes tile-out {
+    from { opacity: 1; transform: translate(-50%, -50%); }
+    to   { opacity: 0; transform: translate(-50%, calc(-50% - 0.35em)) scale(0.96); }
   }
 
   .appstore {
@@ -339,8 +355,15 @@
       transform: none;
       animation: none;
     }
-    .repeat-stack .tile {
-      transition: none;
+    .repeat-stack .tile.is-active,
+    .repeat-stack .tile.is-exit {
+      animation: none;
+      transform: none;
+      opacity: 1;
+    }
+    .repeat-stack .tile.is-exit {
+      display: none;
+      opacity: 0;
     }
   }
 </style>
