@@ -344,8 +344,8 @@
     }
   }
 </style>
-<link rel="stylesheet" href="css/grid.css?v=44" />
-<link rel="stylesheet" href="css/page.css?v=37" />
+<link rel="stylesheet" href="css/grid.css?v=45" />
+<link rel="stylesheet" href="css/page.css?v=38" />
 </head>
 <body>
 
@@ -393,6 +393,30 @@
         <span class="lede-chunk lede-chunk--post">every week.</span>
       </span>
     </p>
+  </div>
+</section>
+
+<section class="decide" id="decide" aria-labelledby="decideTitle">
+  <div class="decide-inner">
+    <h2 class="decide-title decide-reveal decide-reveal--1" id="decideTitle">
+      You make <span class="decide-em">thousands</span> of decisions a day.
+    </h2>
+    <p class="decide-lede decide-reveal decide-reveal--2">
+      Coffee. Routes. What to watch next. Most of them vanish into habit —
+      or into whatever the feed serves before you notice.
+    </p>
+    <div class="decide-split decide-reveal decide-reveal--3">
+      <div class="decide-point">
+        <p class="decide-point-kicker">You</p>
+        <h3 class="decide-point-title">On autopilot</h3>
+        <p class="decide-point-body">Same order. Same scroll. Same Friday. Choice without choosing.</p>
+      </div>
+      <div class="decide-point">
+        <p class="decide-point-kicker">Then the algorithm</p>
+        <h3 class="decide-point-title">Tools decide for you</h3>
+        <p class="decide-point-body">Social feeds, maps, and apps quietly pick what you see, where you go, what you buy.</p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -457,6 +481,27 @@
   };
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
+
+  var decide = document.getElementById('decide');
+  if (decide) {
+    if (reduced) {
+      decide.classList.add('is-in');
+    } else if ('IntersectionObserver' in window) {
+      var decideObs = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            decide.classList.add('is-in');
+            decideObs.disconnect();
+          });
+        },
+        { root: null, threshold: 0.28 }
+      );
+      decideObs.observe(decide);
+    } else {
+      decide.classList.add('is-in');
+    }
+  }
 
   /* Hero chip carousel — one tile at a time */
   var stack = document.getElementById('repeatStack');
