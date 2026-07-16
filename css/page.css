@@ -144,15 +144,15 @@
   filter: drop-shadow(0 14px 22px color-mix(in srgb, var(--shadow) 35%, transparent));
 }
 
-.decide-img--dark {
+.decide-card-media .decide-img--dark {
   display: none;
 }
 
-[data-theme="dark"] .decide-img--light {
+[data-theme="dark"] .decide-card-media .decide-img--light {
   display: none;
 }
 
-[data-theme="dark"] .decide-img--dark {
+[data-theme="dark"] .decide-card-media .decide-img--dark {
   display: block;
 }
 
