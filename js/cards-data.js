@@ -2,7 +2,7 @@ window.WC_GRID_ITEMS = [
   {
     label: 'Dinner tonight',
     title: 'Takeout again',
-    stat: 'You opened the app before you opened the fridge.',
+    stat: 'You opened the delivery app before you opened the fridge.',
     hoverTitle: 'Asian cuisine',
     hoverStat: "Order something you can't pronounce.",
     icon: 'img/categories/dinner.png',
