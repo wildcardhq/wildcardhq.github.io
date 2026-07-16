@@ -87,7 +87,7 @@
   transform: translate3d(0, 0, 0);
 }
 
-/* Top visual stage — full-bleed art (PNGs are shot on black) */
+/* Top visual stage — transparent cutouts on warm glow */
 .decide-card-media {
   position: relative;
   z-index: 1;
@@ -95,37 +95,27 @@
   aspect-ratio: 4 / 3;
   display: grid;
   place-items: center;
-  overflow: hidden;
   /* overlap copy by 1px — kills subpixel seam between fills */
   margin-bottom: -1px;
   padding-bottom: 1px;
   border: 0;
-  background: #0a0a0a;
+  background:
+    radial-gradient(
+      ellipse 70% 60% at 50% 58%,
+      var(--media-glow) 0%,
+      transparent 70%
+    ),
+    var(--media-bg);
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
 }
 
-.decide-card-media::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(
-    ellipse 80% 70% at 50% 55%,
-    var(--media-glow) 0%,
-    transparent 68%
-  );
-}
-
 .decide-card-media img {
-  position: relative;
-  z-index: 1;
   display: block;
-  width: 100%;
-  height: 100%;
+  width: min(78%, 220px);
+  height: auto;
   object-fit: contain;
-  object-position: center;
-  transform: scale(1.12);
+  filter: drop-shadow(0 14px 22px color-mix(in srgb, var(--shadow) 35%, transparent));
 }
 
 .decide-card-copy {
@@ -173,17 +163,20 @@
 /* Habit → Apps → Result */
 .decide-card--habit {
   --who-color: var(--orange);
-  --media-glow: color-mix(in srgb, var(--orange) 28%, transparent);
+  --media-bg: color-mix(in srgb, var(--bg) 70%, var(--surface));
+  --media-glow: var(--glow-soft);
 }
 
 .decide-card--apps {
   --who-color: var(--chip-ink);
-  --media-glow: color-mix(in srgb, var(--orange) 34%, transparent);
+  --media-bg: color-mix(in srgb, var(--chip-bg) 55%, var(--surface));
+  --media-glow: color-mix(in srgb, var(--orange) 22%, transparent);
 }
 
 .decide-card--result {
   --who-color: var(--orange);
-  --media-glow: color-mix(in srgb, var(--orange) 22%, transparent);
+  --media-bg: color-mix(in srgb, var(--bg) 78%, var(--surface));
+  --media-glow: color-mix(in srgb, var(--orange) 16%, transparent);
 }
 
 [data-theme="dark"] .decide-card {
@@ -191,15 +184,18 @@
 }
 
 [data-theme="dark"] .decide-card--habit {
-  --media-glow: color-mix(in srgb, var(--orange) 32%, transparent);
+  --media-bg: color-mix(in srgb, var(--surface) 80%, #000);
+  --media-glow: var(--glow-soft);
 }
 
 [data-theme="dark"] .decide-card--apps {
-  --media-glow: color-mix(in srgb, var(--orange) 38%, transparent);
+  --media-bg: color-mix(in srgb, var(--surface) 55%, #5a2e0a);
+  --media-glow: color-mix(in srgb, var(--orange) 28%, transparent);
 }
 
 [data-theme="dark"] .decide-card--result {
-  --media-glow: color-mix(in srgb, var(--orange) 26%, transparent);
+  --media-bg: color-mix(in srgb, var(--surface) 70%, #000);
+  --media-glow: color-mix(in srgb, var(--orange) 18%, transparent);
 }
 
 @media (max-width: 860px) {
