@@ -55,7 +55,7 @@
   --who-color: var(--orange);
   --card-ink: var(--ink);
   --card-soft: var(--ink-soft);
-  --media-bg: color-mix(in srgb, var(--bg) 55%, var(--surface));
+  --media-bg: transparent;
   --media-glow: transparent;
   margin: 0;
   padding: 0;
@@ -154,41 +154,15 @@
 }
 
 /* Habit → Apps → Result */
-.decide-card--habit {
-  --who-color: var(--orange);
-  --media-bg: color-mix(in srgb, var(--bg) 70%, var(--surface));
-  --media-glow: var(--glow-soft);
-}
-
-.decide-card--apps {
-  --who-color: var(--orange);
-  --media-bg: color-mix(in srgb, var(--bg) 70%, var(--surface));
-  --media-glow: color-mix(in srgb, var(--orange) 22%, transparent);
-}
-
+.decide-card--habit,
+.decide-card--apps,
 .decide-card--result {
   --who-color: var(--orange);
-  --media-bg: color-mix(in srgb, var(--bg) 70%, var(--surface));
-  --media-glow: color-mix(in srgb, var(--orange) 16%, transparent);
+  --media-bg: transparent;
 }
 
 [data-theme="dark"] .decide-card {
   box-shadow: none;
-}
-
-[data-theme="dark"] .decide-card--habit {
-  --media-bg: color-mix(in srgb, var(--surface) 80%, #000);
-  --media-glow: var(--glow-soft);
-}
-
-[data-theme="dark"] .decide-card--apps {
-  --media-bg: color-mix(in srgb, var(--surface) 55%, #5a2e0a);
-  --media-glow: color-mix(in srgb, var(--orange) 28%, transparent);
-}
-
-[data-theme="dark"] .decide-card--result {
-  --media-bg: color-mix(in srgb, var(--surface) 70%, #000);
-  --media-glow: color-mix(in srgb, var(--orange) 18%, transparent);
 }
 
 @media (max-width: 860px) {
