@@ -42,16 +42,24 @@
     return max + 2;
   }
 
-  // Desktop slots place cards by fraction of the available width (colFrac)
-  // instead of an absolute column, so the layout spreads across the actual
-  // viewport instead of hugging the left edge on wide screens (the grid's
-  // column count grows with viewport width, but a fixed absolute column
-  // stays put). Mobile slots keep absolute columns since phone widths only
-  // ever produce a handful of columns anyway.
+  // Slots place cards by fraction of the available width (colFrac) instead of
+  // an absolute column, so the layout spreads across the actual viewport
+  // instead of hugging the left edge on wide screens (the grid's column count
+  // grows with viewport width, but a fixed absolute column stays put).
+  // colFrac 0 = as far left as the gutter allows, 1 = as far right.
+  var EDGE_GUTTER = 1;
+
   function resolveCol(slot, cols) {
     if (slot.colFrac == null) return slot.col;
-    var span = Math.max(1, cols - slot.w);
-    return Math.min(cols - slot.w + 1, Math.max(1, Math.round(slot.colFrac * span) + 1));
+    var first = 1 + EDGE_GUTTER;
+    var last = cols - slot.w + 1 - EDGE_GUTTER;
+    // A viewport too narrow to afford gutters on both sides gets the full
+    // range back rather than a card pushed off-grid.
+    if (last < first) {
+      first = 1;
+      last = Math.max(1, cols - slot.w + 1);
+    }
+    return Math.round(first + slot.colFrac * (last - first));
   }
 
   function currentCols() {
@@ -163,12 +171,6 @@
   items.forEach(function (item, index) {
     var node = document.createElement('div');
     node.className = 'grid-node';
-    // Cards are revealed one at a time on scroll (IntersectionObserver), not as
-    // one batch — so an index-based stagger just makes later cards reveal and
-    // nudge with a growing lag. Keep the delay constant so every card behaves
-    // identically the moment it enters view. The intra-card sequencing (front
-    // bg +0.14s, icon +0.2s, nudge +0.75s) is still handled in CSS.
-    node.style.setProperty('--reveal-delay', '0s');
     node.innerHTML = buildCardMarkup(item);
 
     // Only the first three cards get the flip "nudge" hint on reveal; once the

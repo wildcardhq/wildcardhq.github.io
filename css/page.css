@@ -259,7 +259,7 @@
 .site-footer a {
   text-decoration: none;
   color: var(--ink-soft);
-  transition: color 0.15s ease;
+  transition: color var(--dur-hover) var(--ease-in-out);
 }
 
 .site-footer a:hover {

@@ -7,7 +7,7 @@ window.WC_GRID_ITEMS = [
     hoverStat: "Order something you can't pronounce.",
     icon: 'img/categories/dinner.png',
     desktop: { colFrac: 0.09, row: 3, w: 4, h: 4 },
-    mobile: { col: 1, row: 3, w: 4, h: 4 },
+    mobile: { colFrac: 0, row: 3, w: 4, h: 4 },
   },
   {
     label: 'Coffee shop',
@@ -17,7 +17,7 @@ window.WC_GRID_ITEMS = [
     hoverStat: 'Ask them to surprise you.',
     icon: 'img/categories/coffeeshop.png',
     desktop: { colFrac: 0.82, row: 8, w: 4, h: 4 },
-    mobile: { col: 5, row: 8, w: 4, h: 4 },
+    mobile: { colFrac: 1, row: 8, w: 4, h: 4 },
   },
   {
     label: 'Restaurant order',
@@ -27,7 +27,7 @@ window.WC_GRID_ITEMS = [
     hoverStat: 'Order dessert as your starter.',
     icon: 'img/categories/restaurant.png',
     desktop: { colFrac: 0.27, row: 13, w: 4, h: 4 },
-    mobile: { col: 1, row: 13, w: 4, h: 4 },
+    mobile: { colFrac: 0, row: 13, w: 4, h: 4 },
   },
   {
     label: 'Workout',
@@ -37,7 +37,7 @@ window.WC_GRID_ITEMS = [
     hoverStat: 'Twice your normal route.',
     icon: 'img/categories/workout.png',
     desktop: { colFrac: 0.91, row: 18, w: 4, h: 4 },
-    mobile: { col: 5, row: 18, w: 4, h: 4 },
+    mobile: { colFrac: 1, row: 18, w: 4, h: 4 },
   },
   {
     label: 'Screen time',
@@ -47,7 +47,7 @@ window.WC_GRID_ITEMS = [
     hoverStat: "Whatever it lands on — watch that.",
     icon: 'img/categories/screentime.png',
     desktop: { colFrac: 0.09, row: 23, w: 4, h: 4 },
-    mobile: { col: 1, row: 23, w: 4, h: 4 },
+    mobile: { colFrac: 0, row: 23, w: 4, h: 4 },
   },
   {
     label: 'Friday night',
@@ -57,7 +57,7 @@ window.WC_GRID_ITEMS = [
     hoverStat: 'A part of town you never visit.',
     icon: 'img/categories/weekend.png',
     desktop: { colFrac: 0.73, row: 28, w: 4, h: 4 },
-    mobile: { col: 5, row: 28, w: 4, h: 4 },
+    mobile: { colFrac: 1, row: 28, w: 4, h: 4 },
   },
   {
     label: 'Reach out',
@@ -67,7 +67,7 @@ window.WC_GRID_ITEMS = [
     hoverStat: "Text someone who isn't expecting it.",
     icon: 'img/categories/reachout.png',
     desktop: { colFrac: 0.36, row: 33, w: 4, h: 4 },
-    mobile: { col: 1, row: 33, w: 4, h: 4 },
+    mobile: { colFrac: 0, row: 33, w: 4, h: 4 },
   },
   {
     label: 'Wind down',
@@ -77,6 +77,6 @@ window.WC_GRID_ITEMS = [
     hoverStat: 'Make a hot drink. Finish it screen-free.',
     icon: 'img/categories/winddown.png',
     desktop: { colFrac: 0.91, row: 38, w: 4, h: 4 },
-    mobile: { col: 5, row: 38, w: 4, h: 4 },
+    mobile: { colFrac: 1, row: 38, w: 4, h: 4 },
   },
 ];

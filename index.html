@@ -44,6 +44,17 @@
 
     --radius-btn: 16px;
 
+    /* Motion. Durations are Apple's system defaults; curves are the
+       CAMediaTimingFunction presets. One gesture = one duration + one curve
+       across every property it animates. */
+    --dur-hover: 0.2s;    /* pointer feedback */
+    --dur-ui: 0.25s;      /* CATransaction default: chrome, colors */
+    --dur-reveal: 0.35s;  /* SwiftUI easeInOut default: things entering */
+    --dur-emph: 0.5s;     /* sheet-present scale: hero words, card flip */
+
+    --ease-out: cubic-bezier(0, 0, 0.58, 1);       /* CA easeOut — entrances */
+    --ease-in-out: cubic-bezier(0.42, 0, 0.58, 1); /* CA easeInEaseOut — state changes */
+
     --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
             "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   }
@@ -94,7 +105,9 @@
     padding-top: calc(14px + env(safe-area-inset-top));
     background: color-mix(in srgb, var(--bg) 92%, transparent);
     border-bottom: 1px solid transparent;
-    transition: border-color .3s ease, background .3s ease;
+    transition:
+      border-color var(--dur-ui) var(--ease-in-out),
+      background var(--dur-ui) var(--ease-in-out);
   }
   .topbar.scrolled {
     border-bottom-color: var(--border);
@@ -127,7 +140,10 @@
     background: var(--surface);
     color: var(--ink);
     cursor: pointer;
-    transition: transform .18s ease, background .2s ease, border-color .2s ease;
+    transition:
+      transform var(--dur-hover) var(--ease-in-out),
+      background var(--dur-hover) var(--ease-in-out),
+      border-color var(--dur-hover) var(--ease-in-out);
   }
   .theme-toggle:hover { transform: translateY(-1px); }
   .theme-toggle:active { transform: scale(.94); }
@@ -164,12 +180,9 @@
     display: inline-block;
     opacity: 0;
     transform: translateY(112%);
-    animation: word-up 0.95s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    animation-delay: calc(0.42s + var(--i) * 0.32s);
+    animation: word-up var(--dur-emph) var(--ease-out) forwards;
+    animation-delay: calc(0.08s + var(--i) * 0.07s);
     will-change: transform, opacity;
-  }
-  .hero-title .word:last-child .word-inner {
-    animation-duration: 1.05s;
   }
 
   .lede {
@@ -194,13 +207,13 @@
   .lede-chunk {
     display: inline;
     opacity: 1;
-    animation: lede-in 0.85s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+    animation: lede-in var(--dur-reveal) var(--ease-out) backwards;
   }
   .lede-chunk--pre {
-    animation-delay: 2.35s;
+    animation-delay: 0.6s;
   }
   .lede-chunk--post {
-    animation-delay: 3.35s;
+    animation-delay: 0.95s;
   }
 
   .repeat-stack {
@@ -209,11 +222,14 @@
     vertical-align: middle;
     outline: none;
     isolation: isolate;
+    /* Room for the tiles to open on hover without touching the words either
+       side of the stack. */
+    margin-inline: 0.2em;
   }
   .repeat-stack .tile {
-    --fan-r: 0px;
-    --fan-a: 270deg;
-    --fan-rot: var(--tile-rot, 0deg);
+    --spread-x: 0em;
+    --lift-y: 0em;
+    --rot: var(--tile-rot, 0deg);
     flex: none;
     height: 1.85em;
     padding: 0.12em 0.55em 0.12em 0.12em;
@@ -221,40 +237,33 @@
     border-radius: 0.48em;
     background: #fff;
     border: 1px solid rgba(23, 20, 15, 0.06);
-    box-shadow: 0 6px 16px -4px rgba(23, 20, 15, 0.30), 0 2px 5px -2px rgba(23, 20, 15, 0.16);
+    box-shadow:
+      0 2px 6px -2px rgba(23, 20, 15, 0.14),
+      0 1px 2px -1px rgba(23, 20, 15, 0.08);
     display: inline-flex;
     align-items: center;
     margin-left: -0.55em;
     opacity: 1;
-    transform:
-      translate(
-        calc(cos(var(--fan-a)) * var(--fan-r)),
-        calc(sin(var(--fan-a)) * var(--fan-r))
-      )
-      rotate(var(--fan-rot));
-    animation: tile-deal 0.7s cubic-bezier(0.2, 0.85, 0.25, 1) backwards;
+    transform: translate(var(--spread-x), var(--lift-y)) rotate(var(--rot));
+    animation: tile-deal var(--dur-reveal) var(--ease-out) backwards;
     transition:
-      transform 0.45s cubic-bezier(0.2, 0.85, 0.25, 1),
-      box-shadow 0.35s ease;
-    will-change: transform, opacity;
+      transform var(--dur-reveal) var(--ease-in-out),
+      box-shadow var(--dur-reveal) var(--ease-in-out);
   }
   .repeat-stack .tile:first-child { margin-left: 0; }
   .repeat-stack .tile:nth-child(1) {
-    animation-delay: 2.65s;
-    --tile-rot: -7deg;
-    --fan-a: 220deg;
+    animation-delay: 0.7s;
+    --tile-rot: -5deg;
     z-index: 1;
   }
   .repeat-stack .tile:nth-child(2) {
-    animation-delay: 2.84s;
-    --tile-rot: 2deg;
-    --fan-a: 270deg;
+    animation-delay: 0.78s;
+    --tile-rot: 0deg;
     z-index: 2;
   }
   .repeat-stack .tile:nth-child(3) {
-    animation-delay: 3.03s;
-    --tile-rot: 8deg;
-    --fan-a: 320deg;
+    animation-delay: 0.86s;
+    --tile-rot: 5deg;
     z-index: 3;
   }
   .repeat-stack .tile img {
@@ -273,29 +282,23 @@
     padding-right: 0.1em;
   }
 
-  /* Fan into an upward semicircle */
+  /* The stack sits inside a sentence, so opening it spreads the tiles along the
+     line and straightens them — it must not leave the baseline. */
   .repeat-stack:hover .tile,
   .repeat-stack:focus-visible .tile {
-    --fan-r: 2.85em;
+    --rot: 0deg;
+    --lift-y: -0.1em;
     box-shadow:
-      0 10px 22px -6px rgba(23, 20, 15, 0.28),
-      0 3px 8px -3px rgba(23, 20, 15, 0.14);
+      0 5px 12px -4px rgba(23, 20, 15, 0.18),
+      0 2px 4px -2px rgba(23, 20, 15, 0.10);
   }
   .repeat-stack:hover .tile:nth-child(1),
   .repeat-stack:focus-visible .tile:nth-child(1) {
-    --fan-rot: -24deg;
-    z-index: 5;
-  }
-  .repeat-stack:hover .tile:nth-child(2),
-  .repeat-stack:focus-visible .tile:nth-child(2) {
-    --fan-rot: 0deg;
-    --fan-r: 3.15em;
-    z-index: 6;
+    --spread-x: -0.4em;
   }
   .repeat-stack:hover .tile:nth-child(3),
   .repeat-stack:focus-visible .tile:nth-child(3) {
-    --fan-rot: 24deg;
-    z-index: 5;
+    --spread-x: 0.4em;
   }
   .repeat-stack:focus-visible {
     border-radius: 0.6em;
@@ -309,7 +312,6 @@
     .repeat-stack .tile:nth-child(2),
     .repeat-stack .tile:nth-child(3) {
       --tile-rot: 0deg;
-      --fan-rot: 0deg;
     }
   }
 
@@ -325,7 +327,10 @@
     border-radius: var(--radius-btn);
     font-weight: 600;
     box-shadow: 0 10px 26px var(--shadow);
-    transition: transform .16s ease, box-shadow .2s ease, opacity .16s ease;
+    transition:
+      transform var(--dur-hover) var(--ease-in-out),
+      box-shadow var(--dur-hover) var(--ease-in-out),
+      opacity var(--dur-hover) var(--ease-in-out);
   }
   .appstore:hover,
   .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 16px 34px var(--shadow); }
@@ -367,17 +372,12 @@
       opacity: 1;
       animation: none;
       transition: none;
-      transform:
-        translate(
-          calc(cos(var(--fan-a)) * var(--fan-r)),
-          calc(sin(var(--fan-a)) * var(--fan-r))
-        )
-        rotate(var(--fan-rot));
+      transform: translate(var(--spread-x), var(--lift-y)) rotate(var(--rot));
     }
   }
 </style>
-<link rel="stylesheet" href="css/grid.css?v=41" />
-<link rel="stylesheet" href="css/page.css?v=36" />
+<link rel="stylesheet" href="css/grid.css?v=42" />
+<link rel="stylesheet" href="css/page.css?v=37" />
 </head>
 <body>
 
@@ -484,6 +484,12 @@
 
   var topbar = document.getElementById('topbar');
   var heroCta = document.getElementById('heroCta');
+  if (heroCta) {
+    heroCta.addEventListener('animationend', function (event) {
+      if (event.animationName !== 'hero-cta-in') return;
+      heroCta.classList.add('intro-done');
+    });
+  }
   var onScroll = function () {
     topbar.classList.toggle('scrolled', window.scrollY > 12);
     if (heroCta) heroCta.classList.toggle('is-hidden', window.scrollY > 64);
@@ -492,7 +498,7 @@
   window.addEventListener('scroll', onScroll, { passive: true });
 })();
 </script>
-<script src="js/cards-data.js?v=30"></script>
-<script src="js/grid.js?v=25"></script>
+<script src="js/cards-data.js?v=31"></script>
+<script src="js/grid.js?v=27"></script>
 </body>
 </html>
