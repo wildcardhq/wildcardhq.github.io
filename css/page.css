@@ -79,8 +79,6 @@
   grid-template-columns: 1fr 1fr;
   gap: clamp(28px, 5vw, 48px);
   margin-top: clamp(40px, 7vh, 64px);
-  padding-top: clamp(28px, 5vh, 40px);
-  border-top: 1px solid var(--border);
   text-align: left;
 }
 
