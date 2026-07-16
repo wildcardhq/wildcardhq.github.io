@@ -273,11 +273,12 @@
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: clamp(6px, 1.4vw, 18px);
-  width: min(100%, 920px);
+  /* Pull sides in — overlap a hair so the trio reads tight like Apple */
+  gap: clamp(-36px, -3.2vw, -18px);
+  width: min(100%, 720px);
   margin: 0 auto;
   padding: 0 0 clamp(8px, 1.5vh, 16px);
-  perspective: 1400px;
+  perspective: 1600px;
   perspective-origin: 50% 55%;
   transform-style: preserve-3d;
   pointer-events: none;
@@ -327,13 +328,13 @@
 
 .outro-phone--left {
   z-index: 1;
-  transform: rotateY(28deg) rotateX(4deg) scale(0.9);
+  transform: translateX(8%) rotateY(22deg) rotateX(3deg) scale(0.92);
   transform-origin: 100% 60%;
 }
 
 .outro-phone--center {
   z-index: 3;
-  width: calc(var(--outro-phone-w) * 1.08);
+  width: calc(var(--outro-phone-w) * 1.06);
   transform: translateY(-2%);
   box-shadow:
     0 0 0 1px rgba(255, 255, 255, 0.1) inset,
@@ -342,7 +343,7 @@
 
 .outro-phone--right {
   z-index: 1;
-  transform: rotateY(-28deg) rotateX(4deg) scale(0.9);
+  transform: translateX(-8%) rotateY(-22deg) rotateX(3deg) scale(0.92);
   transform-origin: 0% 60%;
 }
 
@@ -382,17 +383,17 @@
   }
 
   .outro-stage {
-    --outro-phone-w: clamp(104px, 28vw, 132px);
-    gap: 4px;
-    perspective: 900px;
+    --outro-phone-w: clamp(108px, 29vw, 136px);
+    gap: -22px;
+    perspective: 1100px;
   }
 
   .outro-phone--left {
-    transform: rotateY(22deg) rotateX(3deg) scale(0.92);
+    transform: translateX(6%) rotateY(18deg) rotateX(2deg) scale(0.94);
   }
 
   .outro-phone--right {
-    transform: rotateY(-22deg) rotateX(3deg) scale(0.92);
+    transform: translateX(-6%) rotateY(-18deg) rotateX(2deg) scale(0.94);
   }
 
   .outro-lede {
