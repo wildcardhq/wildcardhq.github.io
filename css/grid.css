@@ -17,7 +17,7 @@
   --grid-line: color-mix(in srgb, var(--ink) 5%, transparent);
 }
 
-.page-grid > *:not(.hero-cta):not(.hero-outro):not(.site-footer) {
+.page-grid > *:not(.hero-outro):not(.site-footer) {
   position: relative;
   z-index: 1;
 }
@@ -72,57 +72,6 @@
 .hero-text {
   width: 100%;
   max-width: 720px;
-}
-
-.hero-cta {
-  position: fixed;
-  left: 50%;
-  bottom: calc(clamp(14px, 2.4vh, 22px) + env(safe-area-inset-bottom));
-  z-index: 10;
-  opacity: 0;
-  transform: translateX(-50%);
-  animation: hero-cta-in var(--dur-reveal) var(--ease-out) 1.15s forwards;
-  transition:
-    transform var(--dur-hover) var(--ease-in-out),
-    box-shadow var(--dur-hover) var(--ease-in-out),
-    opacity var(--dur-ui) var(--ease-in-out),
-    visibility var(--dur-ui) var(--ease-in-out);
-}
-
-.hero-cta:hover {
-  transform: translateX(-50%) translateY(-2px);
-}
-
-.hero-cta:active {
-  transform: translateX(-50%) scale(0.97);
-}
-
-/* Once the intro has played out, opacity is owned by these classes instead of
-   the animation. Keeping the animation live here means re-showing the button
-   would restart it from its delay, so scrolling back to the hero left a blank
-   gap the length of the intro. */
-.hero-cta.intro-done {
-  opacity: 1;
-  animation: none;
-}
-
-/* !important so this still wins while the intro animation is mid-flight —
-   scrolling away during the intro must not let the button fade in behind you. */
-.hero-cta.is-hidden {
-  opacity: 0 !important;
-  visibility: hidden;
-  pointer-events: none;
-}
-
-@keyframes hero-cta-in {
-  to { opacity: 1; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-cta {
-    opacity: 1;
-    animation: none;
-  }
 }
 
 /* ---------- Grid scroll zone ---------- */
