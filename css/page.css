@@ -231,15 +231,6 @@
   background: #000;
 }
 
-.outro-eyebrow {
-  margin: 0 0 clamp(10px, 1.4vh, 16px);
-  font-size: clamp(17px, 1.6vw, 21px);
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  line-height: 1.2;
-  color: var(--orange);
-}
-
 .outro-title {
   margin: 0 0 clamp(40px, 6vh, 72px);
   max-width: 16ch;
