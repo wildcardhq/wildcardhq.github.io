@@ -100,8 +100,8 @@
 .hero-text {
   width: 100%;
   max-width: 720px;
-  /* Optical lift so the block reads centered under the fixed topbar. */
-  transform: translateY(calc(var(--hero-chrome) * -0.22));
+  /* Optical lift — whole title+lede block, not the gap between them. */
+  transform: translateY(calc(var(--hero-chrome) * -0.42));
 }
 
 /* ---------- Grid scroll zone ---------- */
