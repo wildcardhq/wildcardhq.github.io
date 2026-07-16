@@ -160,64 +160,42 @@
   text-wrap: pretty;
 }
 
-/* Clear → warmer → quiet (media stage carries the mood) */
-.decide-card--you {
+/* Habit → Apps → Result (light mood progression, same media treatment) */
+.decide-card--habit {
   --who-color: var(--orange);
   --media-bg: color-mix(in srgb, var(--bg) 70%, var(--surface));
   --media-glow: var(--glow-soft);
 }
 
-.decide-card--feed {
+.decide-card--apps {
   --who-color: var(--chip-ink);
   --media-bg: color-mix(in srgb, var(--chip-bg) 55%, var(--surface));
   --media-glow: color-mix(in srgb, var(--orange) 22%, transparent);
 }
 
-.decide-card--void {
-  --who-color: color-mix(in srgb, var(--ink-soft) 60%, transparent);
-  --card-ink: color-mix(in srgb, var(--ink) 55%, var(--bg));
-  --card-soft: color-mix(in srgb, var(--ink-soft) 58%, var(--bg));
-  --media-bg: color-mix(in srgb, var(--bg) 85%, var(--ink-soft));
-  --media-glow: transparent;
-}
-
-.decide-card--void .decide-who {
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: none;
-}
-
-.decide-card--void .decide-card-media img {
-  opacity: 0.42;
-  filter:
-    grayscale(0.4) saturate(0.65)
-    drop-shadow(0 10px 16px color-mix(in srgb, var(--shadow) 20%, transparent));
-}
-
-.decide-card--void .decide-card-title {
-  font-weight: 700;
+.decide-card--result {
+  --who-color: var(--orange);
+  --media-bg: color-mix(in srgb, var(--bg) 78%, var(--surface));
+  --media-glow: color-mix(in srgb, var(--orange) 14%, transparent);
 }
 
 [data-theme="dark"] .decide-card {
   box-shadow: none;
 }
 
-[data-theme="dark"] .decide-card--you {
+[data-theme="dark"] .decide-card--habit {
   --media-bg: color-mix(in srgb, var(--surface) 80%, #000);
   --media-glow: var(--glow-soft);
 }
 
-[data-theme="dark"] .decide-card--feed {
+[data-theme="dark"] .decide-card--apps {
   --media-bg: color-mix(in srgb, var(--surface) 55%, #5a2e0a);
   --media-glow: color-mix(in srgb, var(--orange) 28%, transparent);
 }
 
-[data-theme="dark"] .decide-card--void {
-  --who-color: color-mix(in srgb, var(--ink-soft) 45%, transparent);
-  --card-ink: color-mix(in srgb, var(--ink) 42%, var(--bg));
-  --card-soft: color-mix(in srgb, var(--ink-soft) 45%, var(--bg));
-  --media-bg: color-mix(in srgb, var(--surface) 60%, #000);
+[data-theme="dark"] .decide-card--result {
+  --media-bg: color-mix(in srgb, var(--surface) 70%, #000);
+  --media-glow: color-mix(in srgb, var(--orange) 16%, transparent);
 }
 
 @media (max-width: 860px) {
