@@ -12,17 +12,18 @@
 .decide-inner {
   width: var(--decide-width);
   margin: 0 auto clamp(28px, 5vh, 40px);
-  text-align: left;
+  text-align: center;
 }
 
 .decide-title {
-  margin: 0;
+  margin: 0 auto;
   max-width: 16ch;
   font-size: clamp(32px, 4.8vw, 48px);
   font-weight: 800;
   letter-spacing: -0.035em;
   line-height: 1.05;
   color: var(--ink);
+  text-wrap: balance;
 }
 
 .decide-title .decide-em {
@@ -30,7 +31,7 @@
 }
 
 .decide-lede {
-  margin: 12px 0 0;
+  margin: 12px auto 0;
   max-width: 34em;
   font-size: clamp(16px, 2vw, 18px);
   font-weight: 500;
@@ -220,18 +221,6 @@
 }
 
 @media (max-width: 860px) {
-  .decide-inner {
-    text-align: center;
-  }
-
-  .decide-title {
-    margin-inline: auto;
-  }
-
-  .decide-lede {
-    margin-inline: auto;
-  }
-
   .decide-cards {
     grid-template-columns: 1fr;
     gap: 16px;
