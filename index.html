@@ -199,6 +199,10 @@
     line-height: 1.5;
     display: flex;
     justify-content: center;
+    /* Whole subtitle (words + chip) after title lands — one beat, not split. */
+    opacity: 0;
+    animation: lede-in var(--dur-reveal) var(--ease-out) forwards;
+    animation-delay: 0.72s;
   }
 
   .lede-line {
@@ -215,14 +219,6 @@
 
   .lede-chunk {
     display: inline;
-    opacity: 1;
-    animation: lede-in var(--dur-reveal) var(--ease-out) backwards;
-  }
-  .lede-chunk--pre {
-    animation-delay: 0.6s;
-  }
-  .lede-chunk--post {
-    animation-delay: 0.95s;
   }
 
   /* All tiles share one grid cell so the slot width = longest label.
@@ -265,6 +261,8 @@
     visibility: visible;
     pointer-events: auto;
     z-index: 1;
+  }
+  .repeat-stack .tile.is-active.is-enter {
     animation: tile-in var(--dur-reveal) var(--ease-out);
   }
   .repeat-stack .tile.is-exit {
@@ -344,12 +342,12 @@
     100% { opacity: 1; transform: translateY(0); }
   }
   @keyframes lede-in {
-    from { opacity: 0; }
-    to   { opacity: 1; }
+    from { opacity: 0; transform: translateY(0.35em); }
+    to   { opacity: 1; transform: none; }
   }
   @media (prefers-reduced-motion: reduce) {
     .hero-title .word-inner,
-    .lede-chunk {
+    .lede {
       opacity: 1;
       transform: none;
       animation: none;
@@ -396,7 +394,7 @@
     </h1>
     <p class="lede">
       <span class="lede-line">
-        <span class="lede-chunk lede-chunk--pre">Same</span>
+        <span class="lede-chunk">Same</span>
         <span class="repeat-stack" id="repeatStack" tabindex="0" role="img" aria-label="Friday">
           <span class="tile is-active">
             <img src="img/categories/weekend.png" alt="" width="40" height="40" decoding="async" />
@@ -411,7 +409,7 @@
             <span class="tile-label">Workout</span>
           </span>
         </span>
-        <span class="lede-chunk lede-chunk--post">every week.</span>
+        <span class="lede-chunk">every week.</span>
       </span>
     </p>
   </div>
@@ -523,13 +521,14 @@
       if (!tiles.length || next === idx) return;
       var prev = tiles[idx];
       var tile = tiles[next];
-      prev.classList.remove('is-active');
+      prev.classList.remove('is-active', 'is-enter');
       prev.classList.add('is-exit');
-      tile.classList.add('is-active');
+      tile.classList.add('is-active', 'is-enter');
       stack.setAttribute('aria-label', labelOf(tile));
       idx = next;
       window.setTimeout(function () {
         prev.classList.remove('is-exit');
+        tile.classList.remove('is-enter');
       }, 400);
     }
 
@@ -538,13 +537,22 @@
       show((idx + 1) % tiles.length);
     }
 
+    var startDelay = 0;
     function start() {
       if (reduced || tiles.length < 2) return;
       stop();
-      timer = window.setInterval(tick, 2200);
+      /* Wait for subtitle entrance (~0.72s + reveal) before cycling chips. */
+      startDelay = window.setTimeout(function () {
+        startDelay = 0;
+        timer = window.setInterval(tick, 2200);
+      }, 1200);
     }
 
     function stop() {
+      if (startDelay) {
+        window.clearTimeout(startDelay);
+        startDelay = 0;
+      }
       if (timer) {
         window.clearInterval(timer);
         timer = 0;
