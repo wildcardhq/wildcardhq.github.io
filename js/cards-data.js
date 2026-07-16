@@ -12,7 +12,7 @@ window.WC_GRID_ITEMS = [
   {
     label: 'Coffee shop',
     title: 'The usual',
-    stat: 'They started making it when you walked in.',
+    stat: "Didn't even check what's new — just ordered the usual.",
     hoverTitle: "Barista's choice",
     hoverStat: 'Ask them to surprise you.',
     icon: 'img/categories/coffeeshop.png',
