@@ -321,8 +321,10 @@ html[data-theme="dark"] .decide-card-media .decide-img--dark {
 
 .outro-phone--center {
   z-index: 3;
-  width: calc(var(--outro-phone-w) * 1.06);
-  transform: translateY(-6px);
+  /* Bigger via scale from the shared baseline — no translateY lift.
+     Bottom origin keeps all three bezels planted on one line. */
+  transform: scale(1.08);
+  transform-origin: 50% 100%;
 }
 
 .outro-phone--center .outro-phone-bezel {
@@ -385,6 +387,11 @@ html[data-theme="dark"] .decide-card-media .decide-img--dark {
     transform: rotateY(-10deg) scale(0.95);
   }
 
+  /* Tighter 6px gap here — cap the scale so it can't overlap neighbors. */
+  .outro-phone--center {
+    transform: scale(1.06);
+  }
+
   .outro-lede {
     margin-top: clamp(28px, 4vh, 40px);
     font-size: 17px;
@@ -396,10 +403,6 @@ html[data-theme="dark"] .decide-card-media .decide-img--dark {
   .outro-phone--center,
   .outro-phone--right {
     transform: none;
-  }
-
-  .outro-phone--center {
-    width: var(--outro-phone-w);
   }
 }
 
