@@ -2,7 +2,7 @@ window.WC_GRID_ITEMS = [
   {
     label: 'Dinner tonight',
     title: 'Takeout again',
-    stat: 'You opened the delivery app before you opened the fridge.',
+    stat: 'The app opens before the fridge.',
     hoverTitle: 'Asian cuisine',
     hoverStat: "Order something you can't pronounce.",
     icon: 'img/categories/dinner.webp',
@@ -12,7 +12,7 @@ window.WC_GRID_ITEMS = [
   {
     label: 'Coffee shop',
     title: 'The usual',
-    stat: "Didn't even check what's new — just ordered the usual.",
+    stat: "Didn't even look at the board.",
     hoverTitle: "Barista's choice",
     hoverStat: 'Ask them to surprise you.',
     icon: 'img/categories/coffeeshop.webp',
@@ -24,7 +24,7 @@ window.WC_GRID_ITEMS = [
     title: 'Same order',
     stat: "You didn't open the menu.",
     hoverTitle: 'First impression',
-    hoverStat: 'Order the first thing your eyes landed on.',
+    hoverStat: 'First thing your eyes land on.',
     icon: 'img/categories/restaurant.webp',
     desktop: { colFrac: 0.27, row: 13, w: 4, h: 4 },
     mobile: { colFrac: 0, row: 13, w: 4, h: 4 },
@@ -42,7 +42,7 @@ window.WC_GRID_ITEMS = [
   {
     label: 'Screen time',
     title: 'Comfort rewatch',
-    stat: 'Watching whatever your feed suggests.',
+    stat: 'Whatever autoplay picks.',
     hoverTitle: 'Guilty pleasure',
     hoverStat: "Reality TV you're embarrassed to admit.",
     icon: 'img/categories/screentime.webp',
@@ -52,7 +52,7 @@ window.WC_GRID_ITEMS = [
   {
     label: 'Friday night',
     title: 'Same plans',
-    stat: 'Same answer you gave last Friday.',
+    stat: "Last Friday's answer, again.",
     hoverTitle: 'New neighborhood',
     hoverStat: 'A part of town you never visit.',
     icon: 'img/categories/weekend.webp',
