@@ -556,9 +556,9 @@
       outroRaf = 0;
       var rect = outroStage.getBoundingClientRect();
       var vh = window.innerHeight || 1;
-      /* 0 when the stage top touches the viewport bottom, 1 once it has
-         risen to 35% of the viewport. Ease-out for a gentle settle. */
-      var p = (vh - rect.top) / (vh * 0.65);
+      /* Stays at 0 until the stage top rises past 85% of the viewport,
+         reaches 1 at 35%. Ease-out for a gentle settle. */
+      var p = (vh * 0.85 - rect.top) / (vh * 0.5);
       p = Math.max(0, Math.min(1, p));
       p = 1 - (1 - p) * (1 - p);
       outroStage.style.setProperty('--converge', p.toFixed(3));
