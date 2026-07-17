@@ -314,9 +314,19 @@ html[data-theme="dark"] .decide-card-media .decide-img--dark {
   vertical-align: top;
 }
 
+/* Scroll convergence: side phones start --spread-x farther out and slide in
+   as the stage scrolls into view. JS drives --converge 0 -> 1; the default
+   is 1 so no-JS and reduced-motion get the settled composition. */
+.outro-stage {
+  --converge: 1;
+  --spread-x: clamp(24px, 3.5vw, 48px);
+}
+
 .outro-phone--left {
   z-index: 1;
-  transform: rotateY(12deg) scale(0.94);
+  transform:
+    translateX(calc(var(--spread-x) * (var(--converge) - 1)))
+    rotateY(12deg) scale(0.94);
 }
 
 .outro-phone--center {
@@ -335,7 +345,9 @@ html[data-theme="dark"] .decide-card-media .decide-img--dark {
 
 .outro-phone--right {
   z-index: 1;
-  transform: rotateY(-12deg) scale(0.94);
+  transform:
+    translateX(calc(var(--spread-x) * (1 - var(--converge))))
+    rotateY(-12deg) scale(0.94);
 }
 
 .outro-lede {
@@ -375,16 +387,21 @@ html[data-theme="dark"] .decide-card-media .decide-img--dark {
 
   .outro-stage {
     --outro-phone-w: clamp(108px, 28vw, 134px);
+    --spread-x: 18px;
     gap: 6px;
     perspective: 1000px;
   }
 
   .outro-phone--left {
-    transform: rotateY(10deg) scale(0.95);
+    transform:
+      translateX(calc(var(--spread-x) * (var(--converge) - 1)))
+      rotateY(10deg) scale(0.95);
   }
 
   .outro-phone--right {
-    transform: rotateY(-10deg) scale(0.95);
+    transform:
+      translateX(calc(var(--spread-x) * (1 - var(--converge))))
+      rotateY(-10deg) scale(0.95);
   }
 
   /* Tighter 6px gap here — cap the scale so it can't overlap neighbors. */

@@ -364,7 +364,7 @@
   }
 </style>
 <link rel="stylesheet" href="css/grid.css?v=54" />
-<link rel="stylesheet" href="css/page.css?v=76" />
+<link rel="stylesheet" href="css/page.css?v=77" />
 </head>
 <body>
 
@@ -545,6 +545,31 @@
       );
       decideObs.observe(decideCards);
     }
+  }
+
+  /* Outro: side phones start spread out, converge as the stage scrolls in */
+  var outroStage = document.querySelector('.outro-stage');
+  if (outroStage && !reduced) {
+    outroStage.style.setProperty('--converge', '0');
+    var outroRaf = 0;
+    var updateOutro = function () {
+      outroRaf = 0;
+      var rect = outroStage.getBoundingClientRect();
+      var vh = window.innerHeight || 1;
+      /* 0 when the stage top touches the viewport bottom, 1 once it has
+         risen to 35% of the viewport. Ease-out for a gentle settle. */
+      var p = (vh - rect.top) / (vh * 0.65);
+      p = Math.max(0, Math.min(1, p));
+      p = 1 - (1 - p) * (1 - p);
+      outroStage.style.setProperty('--converge', p.toFixed(3));
+    };
+    var onOutroScroll = function () {
+      if (outroRaf) return;
+      outroRaf = requestAnimationFrame(updateOutro);
+    };
+    window.addEventListener('scroll', onOutroScroll, { passive: true });
+    window.addEventListener('resize', onOutroScroll, { passive: true });
+    updateOutro();
   }
 
   /* Hero chip carousel — one tile at a time */
