@@ -22,7 +22,7 @@ window.WC_GRID_ITEMS = [
   {
     label: 'Restaurant order',
     title: 'Same order',
-    stat: "You didn't open the menu.",
+    stat: "Didn't even look at the menu.",
     hoverTitle: 'First impression',
     hoverStat: 'First thing your eyes land on.',
     icon: 'img/categories/restaurant.webp',
